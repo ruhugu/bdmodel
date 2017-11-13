@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Fortran and C objects
+*.o
+
 # Distribution / packaging
 .Python
 build/
