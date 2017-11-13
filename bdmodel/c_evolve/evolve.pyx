@@ -35,7 +35,11 @@ import numpy as np
 # http://cython-docs2.readthedocs.io/en/latest/src/userguide/external_C_code.html
 cdef extern from "c_evolve.h":
     void c_evolve(long int* in_heights, long int* out_heights, int length, 
-                  long int nsteps)
+                  long int nsteps, long int* pbc)
+
+cdef extern from "c_evolve.h":
+    void c_deposit(int j_latt, long int *heights, long int* pbc);
+
 cdef extern from "dranxor2/dranxor2C.h":
     void dranini_(int*)
 
@@ -59,8 +63,10 @@ cdef extern from "dranxor2/dranxor2C.h":
 # If we use a Python variable as an argument of a Cython function with a
 # specified type, automatic conversion will be attempted.
 # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
+
 def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
-           n):
+           int n,
+           cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
     """Evolves in_heights lattice heights throwing nsteps particles.
     
     This function uses the nearest neighbour sticking rule.
@@ -76,19 +82,68 @@ def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
         out_heights : 1-d int array
             Array with the final height of each lattice point after
             the deposition of the n particles.
-    """
 
+    """
     length = in_heights.size
     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
                                                     np.zeros(length, dtype=int)
 
     c_evolve(<long int*> cnp.PyArray_DATA(in_heights),    
              <long int*> cnp.PyArray_DATA(out_heights), 
-             length, n)
+             length, n,
+             <long int*> cnp.PyArray_DATA(pbc))
 
     return out_heights
 
+
+def deposit(int j_latt,
+             cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+             cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+    """Deposite a particle a lattice point 'j_lat'.
+    
+    Takes the surface given by in_heights and returns the resulting 
+    lattice after depositing the particle in the given point.
+
+    This function uses the nearest neighbour sticking rule.
+    
+    Parameters
+    ----------
+        j_lat : int
+            Lattice point where the particle will be depositated.
+        in_heights : 1-d int array
+            Array with the initial height of each lattice point.
+
+    Returns:
+        out_heights : 1-d int array
+            Array with the final height of each lattice point after
+            the deposition.
+
+    """
+    length = in_heights.size
+
+    if j_latt >= length or j_latt < 0:
+        raise IndexError("j_lat is out of range")
+    
+    cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
+                                                    np.zeros(length, dtype=int)
+
+    out_heights = np.copy(in_heights, order="c")
+    
+    c_deposit(<int> j_latt,
+              <long int*> cnp.PyArray_DATA(out_heights),
+              <long int*> cnp.PyArray_DATA(pbc))
+    
+    return out_heights;
+    
+
 def seed(int iseed): 
+    """Initialize the random number generator in the c extension.
+    
+    Parameters
+    ----------
+        iseed : int
+            Seed for the random number generator.
+
+    """
     dranini_(&iseed)
     return    
-    
