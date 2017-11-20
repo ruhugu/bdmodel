@@ -85,14 +85,14 @@ class Lattice:
         sumsqr = np.power((self._heights - self.meanheight()), 2)
         return np.sqrt(np.sum(sumsqr))/self._length
 
-    def _measure_run(self, prtcl_measure, nmeasures):
+    def _measure_run(self, prtcl_per_measure, nmeasures):
         """Measure mean height and interface width over one run.
         
         Note: this resets the lattice heights.
     
         Parameters
         ----------
-            prtcl_measure : int
+            prtcl_per_measure : int
                 Number of particles deposited between measures.
             nmeasures : int
                 Number of measures.
@@ -102,23 +102,23 @@ class Lattice:
 
         # Store measure time and number of measures
         # TODO: add to docs
-        self._nsteps = nsteps
-        self._measuretime = measuretime
+        self._nmeasures = nmeasures
+        self._prtcl_per_measure = prtcl_per_measure
         
         # Create vector to store the mean heights results
         # TODO: add to docs
-        self._mh_vec = np.zeros(nsteps)
+        self._mh_vec = np.zeros(nmeasures)
         # Vector storing the width results
         # TODO: add to docs
-        self._w_vec = np.zeros(nsteps)
+        self._w_vec = np.zeros(nmeasures)
         
-        for j_m in range(nsteps - 1):
+        for j_m in range(nmeasures - 1):
             self._mh_vec[j_m] = self.meanheight()
             self._w_vec[j_m] = self.width()
-            self.evolve(prtcl_measure)
+            self.evolve(prtcl_per_measure)
 
-        self._mh_vec[nsteps - 1] = self.meanheight()
-        self._w_vec[nsteps - 1] = self.width()
+        self._mh_vec[nmeasures - 1] = self.meanheight()
+        self._w_vec[nmeasures - 1] = self.width()
 
         return
         
@@ -149,12 +149,12 @@ class Lattice:
         steps = measuretime/nmeasures
         
         # Number of particle deposited between measures
-        prtcl_measure = int(steps*self.length)
+        prtcl_per_measure = int(steps*self.length)
 
         # Loop over runs
         for j_run in range(nruns):
             # Measure the run
-            self._measure_run(prtcl_measure, nmeasures)
+            self._measure_run(prtcl_per_measure, nmeasures)
 
             # Add the values to the average
             mh_vec_sum += self._mh_vec 
@@ -173,10 +173,10 @@ class Lattice:
         Plots the y_vec versus the time of each measure.
         """
         # TODO: improve this doc
-        if (y_vec.size != self._nsteps):
+        if (y_vec.size != self._nmeasures):
             raise ValueError("y_vec size is different from the number of"
                                                                 "measures.")
-        t_vec = self._measuretime*np.arange(self._nsteps)        
+        t_vec = self._prtcl_per_measure*np.arange(self._nmeasures)        
         
         if log==False:
             plt.plot(t_vec, y_vec)
