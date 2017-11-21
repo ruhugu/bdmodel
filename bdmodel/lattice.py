@@ -155,6 +155,7 @@ class Lattice:
                                                 num=self._nmeasures, 
                                                 base=spacefactor, dtype=int)
             # Remove possible repeated values
+            # TODO: send a warning if the number of measures is changed
             self._t_MCS_vec = np.unique(self._t_MCS_vec)
 
             # Update the number of measures
