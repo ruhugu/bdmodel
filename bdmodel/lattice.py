@@ -79,36 +79,36 @@ class Lattice:
         sumsqr = np.power((self._heights - self.meanheight()), 2)
         return np.sqrt(np.sum(sumsqr))/self._length
 
-    def _measure_run(self, t_prtcl_vec):
+    def _measure_run(self, ts_prtcl):
         """Measure mean height and interface width over one run.
         
         Note: this resets the lattice heights.
     
         Parameters
         ----------
-            t_prtcl_vec : int array
+            ts_prtcl : int array
                 Times when measures are taken in units of deposited
                 particles.
         """
         self.resetheights() 
         
-        nmeasures = t_prtcl_vec.size
+        nmeasures = ts_prtcl.size
 
         # Create vector to store the mean heights and interface width
         # TODO: add to docs
-        self._mh_vec = np.zeros(nmeasures)
-        self._w_vec = np.zeros(nmeasures)
+        self._meanheights = np.zeros(nmeasures)
+        self._widths = np.zeros(nmeasures)
         
         last_t = 0
-        for j_t, t in enumerate(t_prtcl_vec):
+        for j_t, t in enumerate(ts_prtcl):
             # Calculate the number of particles to be deposited
             # before the next measurement    
             n_prtcls = t - last_t
             self.evolve(n_prtcls)
 
             # Measure
-            self._mh_vec[j_t] = self.meanheight()
-            self._w_vec[j_t] = self.width()
+            self._meanheights[j_t] = self.meanheight()
+            self._widths[j_t] = self.width()
 
             last_t = t
 
@@ -172,25 +172,25 @@ class Lattice:
                                           num=self._nmeasures, dtype=int)
         
         # Calculate the number of particles deposited before each measure
-        self._t_prtcl_vec = self._length*self._t_MCS_vec
+        self._ts_prtcl = self._length*self._t_MCS_vec
 
         # Create vectors where the accumulated sum over runs will
         # be saved.
-        mh_vec_sum = np.zeros(self._nmeasures)
-        w_vec_sum = np.zeros(self._nmeasures)
+        meanheights_sum = np.zeros(self._nmeasures)
+        widths_sum = np.zeros(self._nmeasures)
 
         # Loop over runs
         for j_run in range(nruns):
             # Measure the run
-            self._measure_run(self._t_prtcl_vec)
+            self._measure_run(self._ts_prtcl)
 
             # Add the values to the average
-            mh_vec_sum += self._mh_vec 
-            w_vec_sum += self._w_vec 
+            meanheights_sum += self._meanheights 
+            widths_sum += self._widths 
 
         # Store the average in the object
-        self._mh_vec_ravg = mh_vec_sum/nruns
-        self._w_vec_ravg = w_vec_sum/nruns
+        self._meanheights_ravg = meanheights_sum/nruns
+        self._widths_ravg = widths_sum/nruns
         
         return
 
@@ -204,7 +204,7 @@ class Lattice:
         if (y_vec.size != self._nmeasures):
             raise ValueError("y_vec size is different from the number of"
                                                                 "measures.")
-        if plt_args["linestyle"] = None:
+        if "linestyle" in plt_args:
             plt_args["linestyle"] = ""
         
         size = 4
@@ -221,17 +221,17 @@ class Lattice:
         return 
 
     def plot_mheight(self, log=False, **plt_args):
-        self._plot_measures(self._mh_vec, log=log, **plt_args)
+        self._plot_measures(self._meanheights, log=log, **plt_args)
         plt.show()
         return
 
     def plot_width(self, log=True, **plt_args):
-        self._plot_measures(self._w_vec, log=log, **plt_args)
+        self._plot_measures(self._widths, log=log, **plt_args)
         plt.show()
         return
 
     def plot_mheight_ravg(self, log=False, **plt_args):
-        self._plot_measures(self._mh_vec_ravg, log=log, **plt_args)
+        self._plot_measures(self._meanheights_ravg, log=log, **plt_args)
         plt.show()
         return
     
@@ -244,7 +244,7 @@ class Lattice:
                 If true (default), loglog axis will be used.
 
         """ 
-        self._plot_measures(self._w_vec_ravg, log=log, **plt_args)
+        self._plot_measures(self._widths_ravg, log=log, **plt_args)
         plt.ylabel(r"$w$")
         plt.show()
 
