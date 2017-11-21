@@ -195,7 +195,7 @@ class Lattice:
         return
 
     # Plot methods
-    def _plot_measures(self, y_vec, log=False):
+    def _plot_measures(self, y_vec, log=False, **plt_args):
         """Auxilar plot function.
             
         Plots the y_vec versus the time of each measure.
@@ -204,35 +204,38 @@ class Lattice:
         if (y_vec.size != self._nmeasures):
             raise ValueError("y_vec size is different from the number of"
                                                                 "measures.")
+        if plt_args["linestyle"] = None:
+            plt_args["linestyle"] = ""
+        
         size = 4
         plt.figure(figsize=(1.62*size, size))
 
         if log==False:
-            plt.plot(self._t_MCS_vec, y_vec)
+            plt.plot(self._t_MCS_vec, y_vec, **plt_args)
         else:
-            plt.loglog(self._t_MCS_vec, y_vec)
+            plt.loglog(self._t_MCS_vec, y_vec, **plt_args)
 
         plt.xlabel(r"$t (MCS)$")
         plt.tight_layout()
         
         return 
 
-    def plot_mheight(self, log=False):
-        self._plot_measures(self._mh_vec, log=log)
+    def plot_mheight(self, log=False, **plt_args):
+        self._plot_measures(self._mh_vec, log=log, **plt_args)
         plt.show()
         return
 
-    def plot_width(self, log=True):
-        self._plot_measures(self._w_vec, log=log)
+    def plot_width(self, log=True, **plt_args):
+        self._plot_measures(self._w_vec, log=log, **plt_args)
         plt.show()
         return
 
-    def plot_mheight_ravg(self, log=False):
-        self._plot_measures(self._mh_vec_ravg, log=log)
+    def plot_mheight_ravg(self, log=False, **plt_args):
+        self._plot_measures(self._mh_vec_ravg, log=log, **plt_args)
         plt.show()
         return
     
-    def plot_width_ravg(self, log=True):
+    def plot_width_ravg(self, log=True, **plt_args):
         """Plot the run averaged interface width against time.
 
         Parameters
@@ -241,7 +244,7 @@ class Lattice:
                 If true (default), loglog axis will be used.
 
         """ 
-        self._plot_measures(self._w_vec_ravg, log=log)
+        self._plot_measures(self._w_vec_ravg, log=log, **plt_args)
         plt.ylabel(r"$w$")
         plt.show()
 
