@@ -14,9 +14,18 @@ class Lattice:
         
 
     """
+    # Kardar-Parisi-Zhang scaling exponents
+    _z_KPZ = 3./2.
+    _alpha_KPZ = 0.5
+    
     def __init__(self, length, seed=None):
 
         self._length = length 
+
+        # Initialize the scaling exponents of the lattice to those
+        # of the KPZ universality class.
+        self.z = Lattice._z_KPZ
+        self.alpha = Lattice._alpha_KPZ
 
         # Initialize the random number generator
         if seed == None:
@@ -249,3 +258,32 @@ class Lattice:
         plt.show()
 
         return
+
+
+def plot_scaledwidth(latt_list, log=True):
+    """Scale different interface width - time plots to show collapse.
+
+    Parameters
+    ----------
+        latt_list : :class:`~bdmodel.Lattice` list 
+            List with simulation on different lattices.
+
+    """
+    size = 4
+    plt.figure(figsize=(1.62*size, size))
+
+    for latt in latt_list:
+        # Scaling factors
+        w_scale = np.power(latt.length, -latt.alpha)
+        t_scale = np.power(latt.length, -latt.z)
+
+        plt.loglog(t_scale*self._ts_MCS, w_scale*latt._widths_ravg, 
+                   label="L={}".format(latt.length))
+
+    plt.xlabel(r"$t/L^z (MCS)$")
+    plt.ylabel(r"$w/L^\alpha$")
+    plt.legend()
+    
+    plt.show()
+
+    return
