@@ -12,14 +12,12 @@ class Lattice:
     Attributes
     ----------
         
-
     """
     # Kardar-Parisi-Zhang scaling exponents
     _z_KPZ = 3./2.
     _alpha_KPZ = 0.5
     
     def __init__(self, length, seed=None):
-
         self._length = length 
 
         # Initialize the scaling exponents of the lattice to those
@@ -85,8 +83,8 @@ class Lattice:
         """Calculate the interface width of the lattice."""
         # TODO: This could be optimized in order to avoid
         # calculating the mean twice.
-        sumsqr = np.power((self._heights - self.meanheight()), 2)
-        return np.sqrt(np.sum(sumsqr))/self._length
+        mean_sqrheight = np.mean(self._heights*self._heights)
+        return np.sqrt(mean_sqrheight - np.power(self.meanheight(), 2))
 
     def _measure_run(self, ts_prtcl):
         """Measure mean height and interface width over one run.
@@ -261,7 +259,7 @@ class Lattice:
         return
 
 
-def plot_scaledwidth(latt_list, log=True):
+def plot_scaledwidth(latt_list, alpha=None, z=None, log=True):
     """Scale different interface width - time plots to show collapse.
 
     Parameters
@@ -272,13 +270,21 @@ def plot_scaledwidth(latt_list, log=True):
     """
     size = 4
     plt.figure(figsize=(1.62*size, size))
+    
+    alpha_is_given = not (alpha == None)
+    z_is_given = not (z == None)
 
     for latt in latt_list:
         # Scaling factors
-        w_scale = np.power(latt.length, -latt.alpha)
-        t_scale = np.power(latt.length, -latt.z)
+        if not alpha_is_given:
+            alpha = latt.alpha
+        if not z_is_given:
+            z = latt.z
 
-        plt.loglog(t_scale*self._ts_MCS, w_scale*latt._widths_ravg, 
+        w_scalefactor = np.power(latt.length, - float(alpha))
+        t_scalefactor = np.power(latt.length, - float(z))
+
+        plt.loglog(t_scalefactor*latt._ts_MCS, w_scalefactor*latt._widths_ravg, 
                    label="L={}".format(latt.length))
 
     plt.xlabel(r"$t/L^z (MCS)$")
