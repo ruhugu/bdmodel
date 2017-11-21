@@ -151,15 +151,15 @@ class Lattice:
             t_ini = 10
             # Calculate the spacing factor
             spacefactor = np.power(self._measuretime/t_ini, 1./self._nmeasures)
-            self._t_MCS_vec = t_ini*np.logspace(0, self._nmeasures - 1, 
+            self._ts_MCS = t_ini*np.logspace(0, self._nmeasures - 1, 
                                                 num=self._nmeasures, 
                                                 base=spacefactor, dtype=int)
             # Remove possible repeated values
             # TODO: send a warning if the number of measures is changed
-            self._t_MCS_vec = np.unique(self._t_MCS_vec)
+            self._ts_MCS = np.unique(self._ts_MCS)
 
             # Update the number of measures
-            self._nmeasures = self._t_MCS_vec.size
+            self._nmeasures = self._ts_MCS.size
             
         else:
             # Check the intervals are big enought so that we do not get
@@ -169,11 +169,11 @@ class Lattice:
                                                     "the number timesteps.")
             # Number of steps between measures in MCS.
             steps = measuretime/nmeasures
-            self._t_MCS_vec = np.linspace(1, self._measuretime, 
+            self._ts_MCS = np.linspace(1, self._measuretime, 
                                           num=self._nmeasures, dtype=int)
         
         # Calculate the number of particles deposited before each measure
-        self._ts_prtcl = self._length*self._t_MCS_vec
+        self._ts_prtcl = self._length*self._ts_MCS
 
         # Create vectors where the accumulated sum over runs will
         # be saved.
@@ -196,14 +196,14 @@ class Lattice:
         return
 
     # Plot methods
-    def _plot_measures(self, y_vec, log=False, **plt_args):
+    def _plot_measures(self, ys, log=False, **plt_args):
         """Auxilar plot function.
             
-        Plots the y_vec versus the time of each measure.
+        Plots the ys versus the time of each measure.
         """
         # TODO: improve this doc
-        if (y_vec.size != self._nmeasures):
-            raise ValueError("y_vec size is different from the number of"
+        if (ys.size != self._nmeasures):
+            raise ValueError("ys size is different from the number of"
                                                                 "measures.")
         if "linestyle" in plt_args:
             plt_args["linestyle"] = ""
@@ -212,9 +212,9 @@ class Lattice:
         plt.figure(figsize=(1.62*size, size))
 
         if log==False:
-            plt.plot(self._t_MCS_vec, y_vec, **plt_args)
+            plt.plot(self._ts_MCS, ys, **plt_args)
         else:
-            plt.loglog(self._t_MCS_vec, y_vec, **plt_args)
+            plt.loglog(self._ts_MCS, ys, **plt_args)
 
         plt.xlabel(r"$t (MCS)$")
         plt.tight_layout()
