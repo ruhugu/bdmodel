@@ -213,8 +213,11 @@ class Lattice:
         if (ys.size != self._nmeasures):
             raise ValueError("ys size is different from the number of"
                                                                 "measures.")
-        if "linestyle" in plt_args:
+        # Use makers only by default
+        if all(not k in plt_args for k in ("linestyle", "marker")):
             plt_args["linestyle"] = ""
+            plt_args["marker"] = "o"
+            plt_args["markersize"] = np.clip(300./self._nmeasures, 2, 8)
         
         size = 4
         plt.figure(figsize=(1.62*size, size))
