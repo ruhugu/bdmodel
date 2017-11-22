@@ -52,27 +52,27 @@ class Lattice:
         return self._heights
 
     def resetheights(self):
-        """Reset lattice heights."""
+        """Reset surface heights."""
         self._heights = np.zeros(self._length, dtype=int)
         return
 
-    def evolve(self, n):
-        """Evolve the system throwing n particles.
+    def evolve(self, nprtcls):
+        """Evolve the system by depositing nprtcls particles.
             
         Parameters
         ----------
-            n : int
-                Number of particles to throw.
+            nprtcls : int
+                Number of particles to deposit.
 
         """
-        self._heights = c_evolve.evolve(self._heights, n, self._pbc)
+        self._heights = c_evolve.evolve(self._heights, nprtcls, self._pbc)
         return 
 
-    def deposit(self, j):
-        """Deposit a particle at lattice point j.
+    def deposit(self, j_latt):
+        """Deposit a particle at lattice point j_latt.
         
         """
-        self._heights = c_evolve.deposit(j, self._heights, self._pbc)
+        self._heights = c_evolve.deposit(j_latt, self._heights, self._pbc)
         return
 
     def meanheight(self):
@@ -81,8 +81,6 @@ class Lattice:
     
     def width(self):
         """Calculate the interface width of the lattice."""
-        # TODO: This could be optimized in order to avoid
-        # calculating the mean twice.
         mean_sqrheight = np.mean(self._heights*self._heights)
         return np.sqrt(mean_sqrheight - np.power(self.meanheight(), 2))
 
@@ -129,7 +127,7 @@ class Lattice:
         ----------
             measuretime : int
                 Duration of the run in Monte Carlo steps (MCS) (in our
-                system 1 MSC = self.length particles thrown).
+                system 1 MSC = self.length deposited particles).
             nmeasures : int
                 Number of measures.
             nruns : int
@@ -165,8 +163,11 @@ class Lattice:
             # TODO: send a warning if the number of measures is changed
             self._ts_MCS = np.unique(self._ts_MCS)
 
-            # Update the number of measures
-            self._nmeasures = self._ts_MCS.size
+            # Update the number of measures if it has changed
+            if self._nmeasures != (self._ts_MCS).size:
+                self._nmeasures = (self._ts_MCS).size
+                print("The number of measures has been "
+                                        "reduced to {}".format(self._nmeasures))
             
         else:
             # Check the intervals are big enought so that we do not get
@@ -228,7 +229,7 @@ class Lattice:
         
         return 
 
-    def plot_mheight(self, log=False, **plt_args):
+    def plot_meanheight(self, log=False, **plt_args):
         self._plot_measures(self._meanheights, log=log, **plt_args)
         plt.show()
         return
@@ -238,7 +239,7 @@ class Lattice:
         plt.show()
         return
 
-    def plot_mheight_ravg(self, log=False, **plt_args):
+    def plot_meanheight_ravg(self, log=False, **plt_args):
         self._plot_measures(self._meanheights_ravg, log=log, **plt_args)
         plt.show()
         return
@@ -250,6 +251,9 @@ class Lattice:
         ----------
             log : bool
                 If true (default), loglog axis will be used.
+            **plt_args : 
+                Keyword arguments to be passed to 
+                :func:`matplotlib.pyplot.plot` function.
 
         """ 
         self._plot_measures(self._widths_ravg, log=log, **plt_args)
@@ -260,12 +264,20 @@ class Lattice:
 
 
 def plot_scaledwidth(latt_list, alpha=None, z=None, log=True):
-    """Scale different interface width - time plots to show collapse.
+    """Scale different (interface width)-time plots to show data collapse.
 
     Parameters
     ----------
-        latt_list : :class:`~bdmodel.Lattice` list 
+        latt_list : :class:`Lattice` list 
             List with simulation on different lattices.
+        alpha : float
+            Scaling exponent :math:`\\alpha`. If not provided uses
+            the attribute :any:`Lattice.alpha` in the :class:`Lattice`
+            instances.
+        z : float
+            Scaling exponent :math:`z`. If not provided uses
+            the attribute :any:`Lattice.z` in the :class:`Lattice`
+            instances.
 
     """
     size = 4
