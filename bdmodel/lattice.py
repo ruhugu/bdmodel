@@ -160,11 +160,11 @@ class Lattice:
                                                 num=self._nmeasures, 
                                                 base=spacefactor, dtype=int)
             # Remove possible repeated values
-            # TODO: send a warning if the number of measures is changed
             self._ts_MCS = np.unique(self._ts_MCS)
 
             # Update the number of measures if it has changed
             if self._nmeasures != (self._ts_MCS).size:
+                # TODO: Specify the Lattice instance name
                 self._nmeasures = (self._ts_MCS).size
                 print("The number of measures has been "
                                         "reduced to {}".format(self._nmeasures))
@@ -264,6 +264,7 @@ class Lattice:
         plt.show()
 
         return
+
 
 
 def plot_scaledwidth(latt_list, alpha=None, z=None, log=True):
