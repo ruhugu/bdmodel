@@ -1536,7 +1536,8 @@ static const char __pyx_k_evolve[] = "evolve";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_j_latt[] = "j_latt";
 static const char __pyx_k_length[] = "length";
-static const char __pyx_k_deposit[] = "deposit";
+static const char __pyx_k_evolveBD[] = "evolveBD";
+static const char __pyx_k_depositBD[] = "depositBD";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_evolve_pyx[] = "evolve.pyx";
@@ -1564,9 +1565,10 @@ static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_u_c;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_copy;
-static PyObject *__pyx_n_s_deposit;
+static PyObject *__pyx_n_s_depositBD;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_evolve;
+static PyObject *__pyx_n_s_evolveBD;
 static PyObject *__pyx_kp_s_evolve_pyx;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_in_heights;
@@ -1591,8 +1593,8 @@ static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, int __pyx_v_n, PyArrayObject *__pyx_v_pbc); /* proto */
-static PyObject *__pyx_pf_6evolve_2deposit(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
+static PyObject *__pyx_pf_6evolve_evolveBD(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, int __pyx_v_n, PyArrayObject *__pyx_v_pbc); /* proto */
+static PyObject *__pyx_pf_6evolve_2depositBD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
 static PyObject *__pyx_pf_6evolve_4seed(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_iseed); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
@@ -1616,22 +1618,22 @@ static PyObject *__pyx_codeobj__16;
 /* "evolve.pyx":67
  * # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
  * 
- * def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
- *            int n,
- *            cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
+ *              int n,
+ *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6evolve_1evolve(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6evolve_evolve[] = "Evolves in_heights lattice heights throwing nsteps particles.\n    \n    This function uses the nearest neighbour sticking rule.\n    \n    Parameters\n    ----------\n        in_heights : 1-d int array\n            Array with the initial height of each lattice point.\n        n : int\n            Number of particles to be thrown over the lattice.\n\n    Returns:\n        out_heights : 1-d int array\n            Array with the final height of each lattice point after\n            the deposition of the n particles.\n\n    ";
-static PyMethodDef __pyx_mdef_6evolve_1evolve = {"evolve", (PyCFunction)__pyx_pw_6evolve_1evolve, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_evolve};
-static PyObject *__pyx_pw_6evolve_1evolve(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6evolve_1evolveBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6evolve_evolveBD[] = "Evolves in_heights lattice heights throwing nsteps particles.\n    \n    This function uses the nearest neighbour sticking rule.\n    \n    Parameters\n    ----------\n        in_heights : 1-d int array\n            Array with the initial height of each lattice point.\n        n : int\n            Number of particles to be thrown over the lattice.\n\n    Returns:\n        out_heights : 1-d int array\n            Array with the final height of each lattice point after\n            the deposition of the n particles.\n\n    ";
+static PyMethodDef __pyx_mdef_6evolve_1evolveBD = {"evolveBD", (PyCFunction)__pyx_pw_6evolve_1evolveBD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_evolveBD};
+static PyObject *__pyx_pw_6evolve_1evolveBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_in_heights = 0;
   int __pyx_v_n;
   PyArrayObject *__pyx_v_pbc = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("evolve (wrapper)", 0);
+  __Pyx_RefNannySetupContext("evolveBD (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_in_heights,&__pyx_n_s_n,&__pyx_n_s_pbc,0};
     PyObject* values[3] = {0,0,0};
@@ -1657,17 +1659,17 @@ static PyObject *__pyx_pw_6evolve_1evolve(PyObject *__pyx_self, PyObject *__pyx_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve", 1, 3, 3, 1); __PYX_ERR(0, 67, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, 1); __PYX_ERR(0, 67, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve", 1, 3, 3, 2); __PYX_ERR(0, 67, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, 2); __PYX_ERR(0, 67, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve") < 0)) __PYX_ERR(0, 67, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveBD") < 0)) __PYX_ERR(0, 67, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1682,15 +1684,15 @@ static PyObject *__pyx_pw_6evolve_1evolve(PyObject *__pyx_self, PyObject *__pyx_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolve", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 67, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 67, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("evolve.evolve", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("evolve.evolveBD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 67, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 69, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6evolve_evolve(__pyx_self, __pyx_v_in_heights, __pyx_v_n, __pyx_v_pbc);
+  __pyx_r = __pyx_pf_6evolve_evolveBD(__pyx_self, __pyx_v_in_heights, __pyx_v_n, __pyx_v_pbc);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1701,7 +1703,7 @@ static PyObject *__pyx_pw_6evolve_1evolve(PyObject *__pyx_self, PyObject *__pyx_
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, int __pyx_v_n, PyArrayObject *__pyx_v_pbc) {
+static PyObject *__pyx_pf_6evolve_evolveBD(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, int __pyx_v_n, PyArrayObject *__pyx_v_pbc) {
   PyObject *__pyx_v_length = NULL;
   PyArrayObject *__pyx_v_out_heights = 0;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_in_heights;
@@ -1718,7 +1720,7 @@ static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyA
   PyObject *__pyx_t_4 = NULL;
   PyArrayObject *__pyx_t_5 = NULL;
   int __pyx_t_6;
-  __Pyx_RefNannySetupContext("evolve", 0);
+  __Pyx_RefNannySetupContext("evolveBD", 0);
   __pyx_pybuffer_out_heights.pybuffer.buf = NULL;
   __pyx_pybuffer_out_heights.refcount = 0;
   __pyx_pybuffernd_out_heights.data = NULL;
@@ -1759,7 +1761,7 @@ static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyA
  *     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
  *                                                     np.zeros(length, dtype=int)             # <<<<<<<<<<<<<<
  * 
- *     c_evolve(<long int*> cnp.PyArray_DATA(in_heights),
+ *     c_evolveBD(<long int*> cnp.PyArray_DATA(in_heights),
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1794,10 +1796,10 @@ static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyA
   __pyx_t_4 = 0;
 
   /* "evolve.pyx":93
- *     c_evolve(<long int*> cnp.PyArray_DATA(in_heights),
- *              <long int*> cnp.PyArray_DATA(out_heights),
- *              length, n,             # <<<<<<<<<<<<<<
- *              <long int*> cnp.PyArray_DATA(pbc))
+ *     c_evolveBD(<long int*> cnp.PyArray_DATA(in_heights),
+ *                <long int*> cnp.PyArray_DATA(out_heights),
+ *                length, n,             # <<<<<<<<<<<<<<
+ *                <long int*> cnp.PyArray_DATA(pbc))
  * 
  */
   __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 93, __pyx_L1_error)
@@ -1805,14 +1807,14 @@ static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyA
   /* "evolve.pyx":91
  *                                                     np.zeros(length, dtype=int)
  * 
- *     c_evolve(<long int*> cnp.PyArray_DATA(in_heights),             # <<<<<<<<<<<<<<
- *              <long int*> cnp.PyArray_DATA(out_heights),
- *              length, n,
+ *     c_evolveBD(<long int*> cnp.PyArray_DATA(in_heights),             # <<<<<<<<<<<<<<
+ *                <long int*> cnp.PyArray_DATA(out_heights),
+ *                length, n,
  */
-  c_evolve(((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_in_heights))), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), __pyx_t_6, __pyx_v_n, ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
+  c_evolveBD(((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_in_heights))), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), __pyx_t_6, __pyx_v_n, ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
 
   /* "evolve.pyx":96
- *              <long int*> cnp.PyArray_DATA(pbc))
+ *                <long int*> cnp.PyArray_DATA(pbc))
  * 
  *     return out_heights             # <<<<<<<<<<<<<<
  * 
@@ -1826,9 +1828,9 @@ static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyA
   /* "evolve.pyx":67
  * # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
  * 
- * def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
- *            int n,
- *            cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
+ *              int n,
+ *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
 
   /* function exit code */
@@ -1845,7 +1847,7 @@ static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyA
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("evolve.evolve", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("evolve.evolveBD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -1863,22 +1865,22 @@ static PyObject *__pyx_pf_6evolve_evolve(CYTHON_UNUSED PyObject *__pyx_self, PyA
 /* "evolve.pyx":99
  * 
  * 
- * def deposit(int j_latt,             # <<<<<<<<<<<<<<
- *              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
- *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
+ *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+ *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6evolve_3deposit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6evolve_2deposit[] = "Deposite a particle a lattice point 'j_lat'.\n    \n    Takes the surface given by in_heights and returns the resulting \n    lattice after depositing the particle in the given point.\n\n    This function uses the nearest neighbour sticking rule.\n    \n    Parameters\n    ----------\n        j_lat : int\n            Lattice point where the particle will be depositated.\n        in_heights : 1-d int array\n            Array with the initial height of each lattice point.\n\n    Returns:\n        out_heights : 1-d int array\n            Array with the final height of each lattice point after\n            the deposition.\n\n    ";
-static PyMethodDef __pyx_mdef_6evolve_3deposit = {"deposit", (PyCFunction)__pyx_pw_6evolve_3deposit, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_2deposit};
-static PyObject *__pyx_pw_6evolve_3deposit(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6evolve_3depositBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6evolve_2depositBD[] = "Deposite a particle a lattice point 'j_lat'.\n    \n    Takes the surface given by in_heights and returns the resulting \n    lattice after depositing the particle in the given point.\n\n    This function uses the nearest neighbour sticking rule.\n    \n    Parameters\n    ----------\n        j_lat : int\n            Lattice point where the particle will be depositated.\n        in_heights : 1-d int array\n            Array with the initial height of each lattice point.\n\n    Returns:\n        out_heights : 1-d int array\n            Array with the final height of each lattice point after\n            the deposition.\n\n    ";
+static PyMethodDef __pyx_mdef_6evolve_3depositBD = {"depositBD", (PyCFunction)__pyx_pw_6evolve_3depositBD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_2depositBD};
+static PyObject *__pyx_pw_6evolve_3depositBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_j_latt;
   PyArrayObject *__pyx_v_in_heights = 0;
   PyArrayObject *__pyx_v_pbc = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("deposit (wrapper)", 0);
+  __Pyx_RefNannySetupContext("depositBD (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_j_latt,&__pyx_n_s_in_heights,&__pyx_n_s_pbc,0};
     PyObject* values[3] = {0,0,0};
@@ -1904,17 +1906,17 @@ static PyObject *__pyx_pw_6evolve_3deposit(PyObject *__pyx_self, PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_in_heights)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("deposit", 1, 3, 3, 1); __PYX_ERR(0, 99, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, 1); __PYX_ERR(0, 99, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("deposit", 1, 3, 3, 2); __PYX_ERR(0, 99, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, 2); __PYX_ERR(0, 99, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "deposit") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "depositBD") < 0)) __PYX_ERR(0, 99, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1929,15 +1931,15 @@ static PyObject *__pyx_pw_6evolve_3deposit(PyObject *__pyx_self, PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("deposit", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("evolve.deposit", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("evolve.depositBD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 100, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 101, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6evolve_2deposit(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
+  __pyx_r = __pyx_pf_6evolve_2depositBD(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1948,7 +1950,7 @@ static PyObject *__pyx_pw_6evolve_3deposit(PyObject *__pyx_self, PyObject *__pyx
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6evolve_2deposit(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
+static PyObject *__pyx_pf_6evolve_2depositBD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
   PyObject *__pyx_v_length = NULL;
   PyArrayObject *__pyx_v_out_heights = 0;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_in_heights;
@@ -1970,7 +1972,7 @@ static PyObject *__pyx_pf_6evolve_2deposit(CYTHON_UNUSED PyObject *__pyx_self, i
   PyObject *__pyx_t_9 = NULL;
   PyObject *__pyx_t_10 = NULL;
   PyObject *__pyx_t_11 = NULL;
-  __Pyx_RefNannySetupContext("deposit", 0);
+  __Pyx_RefNannySetupContext("depositBD", 0);
   __pyx_pybuffer_out_heights.pybuffer.buf = NULL;
   __pyx_pybuffer_out_heights.refcount = 0;
   __pyx_pybuffernd_out_heights.data = NULL;
@@ -2095,7 +2097,7 @@ static PyObject *__pyx_pf_6evolve_2deposit(CYTHON_UNUSED PyObject *__pyx_self, i
  * 
  *     out_heights = np.copy(in_heights, order="c")             # <<<<<<<<<<<<<<
  * 
- *     c_deposit(<int> j_latt,
+ *     c_depositBD(<int> j_latt,
  */
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
@@ -2141,14 +2143,14 @@ static PyObject *__pyx_pf_6evolve_2deposit(CYTHON_UNUSED PyObject *__pyx_self, i
   /* "evolve.pyx":132
  *     out_heights = np.copy(in_heights, order="c")
  * 
- *     c_deposit(<int> j_latt,             # <<<<<<<<<<<<<<
- *               <long int*> cnp.PyArray_DATA(out_heights),
- *               <long int*> cnp.PyArray_DATA(pbc))
+ *     c_depositBD(<int> j_latt,             # <<<<<<<<<<<<<<
+ *                 <long int*> cnp.PyArray_DATA(out_heights),
+ *                 <long int*> cnp.PyArray_DATA(pbc))
  */
-  c_deposit(((int)__pyx_v_j_latt), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
+  c_depositBD(((int)__pyx_v_j_latt), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
 
   /* "evolve.pyx":136
- *               <long int*> cnp.PyArray_DATA(pbc))
+ *                 <long int*> cnp.PyArray_DATA(pbc))
  * 
  *     return out_heights;             # <<<<<<<<<<<<<<
  * 
@@ -2162,9 +2164,9 @@ static PyObject *__pyx_pf_6evolve_2deposit(CYTHON_UNUSED PyObject *__pyx_self, i
   /* "evolve.pyx":99
  * 
  * 
- * def deposit(int j_latt,             # <<<<<<<<<<<<<<
- *              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
- *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
+ *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+ *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
 
   /* function exit code */
@@ -2181,7 +2183,7 @@ static PyObject *__pyx_pf_6evolve_2deposit(CYTHON_UNUSED PyObject *__pyx_self, i
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("evolve.deposit", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("evolve.depositBD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -4895,9 +4897,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
-  {&__pyx_n_s_deposit, __pyx_k_deposit, sizeof(__pyx_k_deposit), 0, 0, 1, 1},
+  {&__pyx_n_s_depositBD, __pyx_k_depositBD, sizeof(__pyx_k_depositBD), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_evolve, __pyx_k_evolve, sizeof(__pyx_k_evolve), 0, 0, 1, 1},
+  {&__pyx_n_s_evolveBD, __pyx_k_evolveBD, sizeof(__pyx_k_evolveBD), 0, 0, 1, 1},
   {&__pyx_kp_s_evolve_pyx, __pyx_k_evolve_pyx, sizeof(__pyx_k_evolve_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_in_heights, __pyx_k_in_heights, sizeof(__pyx_k_in_heights), 0, 0, 1, 1},
@@ -5050,26 +5053,26 @@ static int __Pyx_InitCachedConstants(void) {
   /* "evolve.pyx":67
  * # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
  * 
- * def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
- *            int n,
- *            cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
+ *              int n,
+ *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
   __pyx_tuple__11 = PyTuple_Pack(5, __pyx_n_s_in_heights, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_length, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolve, 67, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveBD, 67, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 67, __pyx_L1_error)
 
   /* "evolve.pyx":99
  * 
  * 
- * def deposit(int j_latt,             # <<<<<<<<<<<<<<
- *              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
- *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
+ *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+ *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
   __pyx_tuple__13 = PyTuple_Pack(5, __pyx_n_s_j_latt, __pyx_n_s_in_heights, __pyx_n_s_pbc, __pyx_n_s_length, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_deposit, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_depositBD, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 99, __pyx_L1_error)
 
   /* "evolve.pyx":139
  * 
@@ -5258,7 +5261,7 @@ static int __pyx_pymod_exec_evolve(PyObject *__pyx_pyinit_module)
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
- * # This tells Cython that there is a c_evolve function defined elsewhere
+ * # This tells Cython that there is a c_evolveBD function defined elsewhere
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -5268,25 +5271,25 @@ static int __pyx_pymod_exec_evolve(PyObject *__pyx_pyinit_module)
   /* "evolve.pyx":67
  * # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
  * 
- * def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
- *            int n,
- *            cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
+ *              int n,
+ *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_1evolve, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_1evolveBD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve, __pyx_t_1) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveBD, __pyx_t_1) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "evolve.pyx":99
  * 
  * 
- * def deposit(int j_latt,             # <<<<<<<<<<<<<<
- *              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
- *              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+ * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
+ *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+ *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_3deposit, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_3depositBD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_deposit, __pyx_t_1) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_depositBD, __pyx_t_1) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "evolve.pyx":139

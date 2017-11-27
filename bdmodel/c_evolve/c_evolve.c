@@ -1,10 +1,13 @@
 #include "c_evolve.h"
 
-// Evolve "nsteps" timesteps the system given in in_heights with
-// "length" lattice points.
-// The evolved state of the system is stored in out_heights.
+
+// Generic function for system evolution. Deposits "nsteps" particles
+// on the lattice with heights "in_heights" with "length" number of
+// points. The deposition is done using the function "depositfunc".
+// The heights after the deposition are stored in out_heights.
 void c_evolve(long int* in_heights, long int* out_heights, int length, 
-              long int nsteps, long int* pbc)
+              long int nsteps, long int* pbc, 
+              void (*depositfunc)(int, long int*, long int*))
 {
     int j_latt;
     
@@ -16,18 +19,29 @@ void c_evolve(long int* in_heights, long int* out_heights, int length,
         // Choose randomly the deposition point. 
         // idran_ generates a random integer between 1 and length.
         j_latt = idran_(&length) - 1;
-        
-        c_deposit(j_latt, out_heights, pbc);
+      
+        (*depositfunc)(j_latt, out_heights, pbc);
     }
     
     return;
 }
 
+// Evolution function using ballistic deposition model. The model details
+// are implemented via the funcion c_depositBD.
+void c_evolveBD(long int* in_heights, long int* out_heights, int length, 
+                long int nsteps, long int* pbc)
+{
+    c_evolve(in_heights, out_heights, length, nsteps, pbc, c_depositBD);  
+    return;
+}
+
+
 // Throw a particle in the "j_latt" point of the lattice given
-// by "heights" and return the resulting lattice heights.
+// by "heights" and return the resulting lattice heights using
+// the ballistic deposition model.
 // j_latt must be a number between 0 and length - 1 (the 
 // function does not check this, so be careful).
-void c_deposit(int j_latt, long int *heights, long int* pbc)
+void c_depositBD(int j_latt, long int *heights, long int* pbc)
 {
         // We use (j_latt + 1) because of the way pbc is
         // defined (heights[pbc[i]] = heights[i-1] with
@@ -38,7 +52,6 @@ void c_deposit(int j_latt, long int *heights, long int* pbc)
                                     heights[pbc[(j_latt + 1) + 1]]);
         return;
 }
-    
 
 
 // Return the maximum of the 3 given numbers.

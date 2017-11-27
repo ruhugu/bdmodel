@@ -13,17 +13,8 @@ class Lattice:
     ----------
         
     """
-    # Kardar-Parisi-Zhang scaling exponents
-    _z_KPZ = 3./2.
-    _alpha_KPZ = 0.5
-    
     def __init__(self, length, seed=None):
         self._length = length 
-
-        # Initialize the scaling exponents of the lattice to those
-        # of the KPZ universality class.
-        self.z = Lattice._z_KPZ
-        self.alpha = Lattice._alpha_KPZ
 
         # Initialize the random number generator
         if seed == None:
@@ -58,6 +49,9 @@ class Lattice:
 
     def evolve(self, nprtcls):
         """Evolve the system by depositing nprtcls particles.
+
+        This method is to be overridden when writing child 
+        classes with specific implementation of the models.
             
         Parameters
         ----------
@@ -65,14 +59,17 @@ class Lattice:
                 Number of particles to deposit.
 
         """
-        self._heights = c_evolve.evolve(self._heights, nprtcls, self._pbc)
+        pass
         return 
 
     def deposit(self, j_latt):
         """Deposit a particle at lattice point j_latt.
+
+        This method is to be overridden when writing child 
+        classes with specific implementation of the models.
         
         """
-        self._heights = c_evolve.deposit(j_latt, self._heights, self._pbc)
+        pass
         return
 
     def meanheight(self):
@@ -265,6 +262,49 @@ class Lattice:
 
         return
 
+
+class BDLattice(Lattice):
+    """Lattice with evolution following the ballistic deposition model.
+
+    """
+
+    # Kardar-Parisi-Zhang scaling exponent
+    _z_KPZ = 3./2.
+    _alpha_KPZ = 0.5
+    
+    def __init__(self, length, seed=None):
+        Lattice.__init__(self, length, seed=seed)
+
+        # Initialize the scaling exponents of the lattice to those
+        # of the KPZ universality class.
+        self.z = BDLattice._z_KPZ
+        self.alpha = BDLattice._alpha_KPZ
+
+
+    def evolve(self, nprtcls):
+        """Evolve the system by depositing nprtcls particles.
+    
+        The depositions are made using the random deposition model.
+            
+        Parameters
+        ----------
+            nprtcls : int
+                Number of particles to deposit.
+
+        """
+        self._heights = c_evolve.evolveBD(self._heights, nprtcls, self._pbc)
+        return 
+
+    def deposit(self, j_latt):
+        """Deposit a particle at lattice point j_latt.
+
+        Ballistic deposition model is used.
+        
+        """
+        self._heights = c_evolve.depositBD(j_latt, self._heights, self._pbc)
+        return
+    
+     
 
 
 def plot_scaledwidth(latt_list, alpha=None, z=None, log=True):

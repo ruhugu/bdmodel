@@ -26,19 +26,19 @@ cimport numpy as cnp
 
 import numpy as np
 
-# This tells Cython that there is a c_evolve function defined elsewhere
-# whose header is in "c_evolve.h".
+# This tells Cython that there is a c_evolveBD function defined elsewhere
+# whose header is in "c_evolveBD.h".
 # cdef is used to define c functions.
 # http://notes-on-cython.readthedocs.io/en/latest/function_declarations.html
 # cdef extern especifies that the function is defined elsewhere. This 
 # can be used without the from "file.hpp" part, but I don't understand how.
 # http://cython-docs2.readthedocs.io/en/latest/src/userguide/external_C_code.html
 cdef extern from "c_evolve.h":
-    void c_evolve(long int* in_heights, long int* out_heights, int length, 
+    void c_evolveBD(long int* in_heights, long int* out_heights, int length, 
                   long int nsteps, long int* pbc)
 
 cdef extern from "c_evolve.h":
-    void c_deposit(int j_latt, long int *heights, long int* pbc);
+    void c_depositBD(int j_latt, long int *heights, long int* pbc);
 
 cdef extern from "dranxor2/dranxor2C.h":
     void dranini_(int*)
@@ -64,9 +64,9 @@ cdef extern from "dranxor2/dranxor2C.h":
 # specified type, automatic conversion will be attempted.
 # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
 
-def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
-           int n,
-           cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+             int n,
+             cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
     """Evolves in_heights lattice heights throwing nsteps particles.
     
     This function uses the nearest neighbour sticking rule.
@@ -88,17 +88,17 @@ def evolve(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
                                                     np.zeros(length, dtype=int)
 
-    c_evolve(<long int*> cnp.PyArray_DATA(in_heights),    
-             <long int*> cnp.PyArray_DATA(out_heights), 
-             length, n,
-             <long int*> cnp.PyArray_DATA(pbc))
+    c_evolveBD(<long int*> cnp.PyArray_DATA(in_heights),    
+               <long int*> cnp.PyArray_DATA(out_heights), 
+               length, n,
+               <long int*> cnp.PyArray_DATA(pbc))
 
     return out_heights
 
 
-def deposit(int j_latt,
-             cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
-             cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+def depositBD(int j_latt,
+              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
     """Deposite a particle a lattice point 'j_lat'.
     
     Takes the surface given by in_heights and returns the resulting 
@@ -129,9 +129,9 @@ def deposit(int j_latt,
 
     out_heights = np.copy(in_heights, order="c")
     
-    c_deposit(<int> j_latt,
-              <long int*> cnp.PyArray_DATA(out_heights),
-              <long int*> cnp.PyArray_DATA(pbc))
+    c_depositBD(<int> j_latt,
+                <long int*> cnp.PyArray_DATA(out_heights),
+                <long int*> cnp.PyArray_DATA(pbc))
     
     return out_heights;
     
