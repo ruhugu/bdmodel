@@ -37,6 +37,8 @@ cdef extern from "c_evolve.h":
                     long int nsteps, long int* pbc)
     void c_evolveRD(long int* in_heights, long int* out_heights, int length, 
                     long int nsteps, long int* pbc)
+    void c_evolveRDdiff(double* in_heights, double* out_heights, double ht,
+                        int length, long int nMCsteps, long int* pbc)
     void c_depositBD(int j_latt, long int *heights, long int* pbc);
     void c_depositRD(int j_latt, long int *heights, long int* pbc);
 
@@ -73,6 +75,7 @@ ctypedef void (*dep_func)(int, long int*, long int*)
 # specified type, automatic conversion will be attempted.
 # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
 
+#TODO: add deposit_func to docs
 cdef evolve_wrapper(cnp.ndarray[long int, ndim=1, mode="c"] in_heights,
                     int n,
                     cnp.ndarray[long int, ndim=1, mode="c"] pbc,
@@ -107,6 +110,7 @@ cdef evolve_wrapper(cnp.ndarray[long int, ndim=1, mode="c"] in_heights,
     return out_heights
 
 
+#TODO: add deposit_func to docs
 cdef deposit_wrapper(int j_latt,
                      cnp.ndarray[long int, ndim=1, mode="c"] in_heights,
                      cnp.ndarray[long int, ndim=1, mode="c"] pbc,
@@ -163,6 +167,39 @@ def evolveRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
 
     """
     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRD)
+    return out_heights
+
+# TODO rewrite docs
+def evolveRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,
+                 double ht, int n,
+                 cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+    """Evolves in_heights lattice heights throwing nsteps particles.
+    
+    The evolution algorithm used is defined in evolvefunc.
+    
+    Parameters
+    ----------
+        in_heights : 1-d int array
+            Array with the initial height of each lattice point.
+        n : int
+            Number of particles to be thrown over the lattice.
+
+    Returns:
+        out_heights : 1-d int array
+            Array with the final height of each lattice point after
+            the deposition of the n particles.
+
+    """
+    length = in_heights.size
+    cdef cnp.ndarray[double, ndim=1, mode="c"] out_heights = \
+                                                np.zeros(length, dtype=float)
+
+    c_evolveRDdiff(
+               <double*> cnp.PyArray_DATA(in_heights),    
+               <double*> cnp.PyArray_DATA(out_heights), 
+               ht, length, n,
+               <long int*> cnp.PyArray_DATA(pbc))
+
     return out_heights
 
 

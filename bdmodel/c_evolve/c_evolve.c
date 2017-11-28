@@ -46,25 +46,28 @@ void c_evolveRD(long int* in_heights, long int* out_heights, int length,
 }
 
 // Evolution solving the stochastic differential equation for the random
-// deposition model using Euler method
-void c_evolveRDdiff(double* in_heights, double* out_heights, double ht;
-                    int length, long int nMCsteps, long int* pbc)
+// deposition model using Euler method.
+// Now the steps are in ht steps 
+void c_evolveRDdiff(double* in_heights, double* out_heights, double ht,
+                    int length, long int nsteps, long int* pbc)
 {
     int j_latt;
+    double sqrtht;
+
+    // Define the square root of the timestep outside to improve speed
+    sqrtht = sqrt(ht);
     
     //Initialize out_heights with the values in in_heights
     for (int i=0; i<length; i++) out_heights[i] = in_heights[i];
 
-    for (int t=0; t<nMCsteps; t++)
+    for (int t=0; t<nsteps; t++)
     {
-        for (j_latt=0, j_latt<length; j_latt++)
+        for (j_latt=0; j_latt<length; j_latt++)
         {
-            out_height[j_latt]
+            out_heights[j_latt] += ht + sqrtht*drang_();
         }
     }
         
-        
-    
     return;
 }
 

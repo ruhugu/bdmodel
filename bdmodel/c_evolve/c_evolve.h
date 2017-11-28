@@ -1,6 +1,7 @@
 #pragma once
 #include "dranxor2/dranxor2C.h"
 #include <stdlib.h>
+#include <math.h>
 
 void c_evolve(long int* in_heights, long int* out_heights, int length, 
               long int nsteps, long int* pbc, 
@@ -9,6 +10,8 @@ void c_evolveBD(long int* in_heights, long int* out_heights, int length,
               long int nsteps, long int* pbc);
 void c_evolveRD(long int* in_heights, long int* out_heights, int length, 
                 long int nsteps, long int* pbc);
+void c_evolveRDdiff(double* in_heights, double* out_heights, double ht,
+                    int length, long int nMCsteps, long int* pbc);
 
 void c_depositBD(int j_latt, long int *heights, long int* pbc);
 void c_depositRD(int j_latt, long int *heights, long int* pbc);

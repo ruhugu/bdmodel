@@ -3,4 +3,4 @@
 from __future__ import (print_function, division, 
                         absolute_import, unicode_literals)
 
-from .evolve import seed, evolveBD, depositBD, evolveRD, depositRD
+from .evolve import seed, evolveBD, depositBD, evolveRD, evolveRDdiff, depositRD

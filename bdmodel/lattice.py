@@ -13,8 +13,9 @@ class Lattice:
     ----------
         
     """
-    def __init__(self, length, seed=None):
+    def __init__(self, length, seed=None, heighttype=int):
         self._length = length 
+        self._heighttype = heighttype
 
         # Initialize the random number generator
         if seed == None:
@@ -44,7 +45,7 @@ class Lattice:
 
     def resetheights(self):
         """Reset surface heights."""
-        self._heights = np.zeros(self._length, dtype=int)
+        self._heights = np.zeros(self._length, dtype=self._heighttype)
         return
 
     def evolve(self, nprtcls):
@@ -361,6 +362,43 @@ class RDLattice(Lattice):
         self._heights = c_evolve.depositRD(j_latt, self._heights, self._pbc)
         return
      
+
+class RDdiffLattice(Lattice):
+    """Lattice with evolution following the random deposition model.
+
+    """
+
+    # Random deposition scaling exponents
+    _beta_RD = 1./2.
+    
+    def __init__(self, length, ht=0.1, seed=None):
+        # ht viene dado en unidades de MCS
+        Lattice.__init__(self, length, seed=seed, heighttype=float)
+
+        self._ht = ht
+
+        # Initialize the scaling exponents of the lattice to those
+        # of the KPZ universality class.
+        self.beta = RDLattice._beta_RD
+
+
+    def evolve(self, nprtcls):
+        """Evolve the system by depositing nprtcls particles.
+    
+        The depositions are made using the random deposition model.
+            
+        Parameters
+        ----------
+            nprtcls : int
+                Number of particles to deposit.
+
+        """
+        # Translate prtcls into MCS and then to timesteps
+        nsteps = int((float(nprtcls)/self.length)/self._ht)
+        
+        self._heights = c_evolve.evolveRDdiff(self._heights, self._ht, 
+                                              nsteps, self._pbc)
+        return 
 
 
 def plot_scaledwidth(latt_list, alpha=None, z=None, log=True):
