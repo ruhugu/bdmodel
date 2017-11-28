@@ -236,14 +236,23 @@ class Lattice:
 
     def plot_width(self, log=True, **plt_args):
         self._plot_measures(self._widths, log=log, **plt_args)
+        
+        # Draw line showing expected slope
+        # TODO: add offset to line and label with the value of beta
+        def logline(t):
+            return self._widths[0]*np.power(t/self._ts_MCS[0], self.beta)
+
+        plt.plot(self._ts_MCS, logline(self._ts_MCS))
         plt.show()
         return
 
+    # TODO: merge wiwth non averaged function
     def plot_meanheight_ravg(self, log=False, **plt_args):
         self._plot_measures(self._meanheights_ravg, log=log, **plt_args)
         plt.show()
         return
     
+    # TODO: merge with non averaged function
     def plot_width_ravg(self, log=True, **plt_args):
         """Plot the run averaged interface width against time.
 
@@ -257,6 +266,13 @@ class Lattice:
 
         """ 
         self._plot_measures(self._widths_ravg, log=log, **plt_args)
+
+        # Draw line showing expected slope
+        # TODO: add offset to line and label with the value of beta
+        def logline(t):
+            return self._widths_ravg[0]*np.power(t/self._ts_MCS[0], self.beta)
+
+        plt.plot(self._ts_MCS, logline(self._ts_MCS))
         plt.ylabel(r"$w$")
         plt.show()
 
@@ -271,6 +287,7 @@ class BDLattice(Lattice):
     # Kardar-Parisi-Zhang scaling exponent
     _z_KPZ = 3./2.
     _alpha_KPZ = 0.5
+    _beta_KPZ = 1./3.
     
     def __init__(self, length, seed=None):
         Lattice.__init__(self, length, seed=seed)
@@ -279,6 +296,7 @@ class BDLattice(Lattice):
         # of the KPZ universality class.
         self.z = BDLattice._z_KPZ
         self.alpha = BDLattice._alpha_KPZ
+        self.beta = BDLattice._beta_KPZ
 
 
     def evolve(self, nprtcls):
@@ -304,6 +322,44 @@ class BDLattice(Lattice):
         self._heights = c_evolve.depositBD(j_latt, self._heights, self._pbc)
         return
     
+class RDLattice(Lattice):
+    """Lattice with evolution following the random deposition model.
+
+    """
+
+    # Random deposition scaling exponents
+    _beta_RD = 1./2.
+    
+    def __init__(self, length, seed=None):
+        Lattice.__init__(self, length, seed=seed)
+
+        # Initialize the scaling exponents of the lattice to those
+        # of the KPZ universality class.
+        self.beta = RDLattice._beta_RD
+
+
+    def evolve(self, nprtcls):
+        """Evolve the system by depositing nprtcls particles.
+    
+        The depositions are made using the random deposition model.
+            
+        Parameters
+        ----------
+            nprtcls : int
+                Number of particles to deposit.
+
+        """
+        self._heights = c_evolve.evolveRD(self._heights, nprtcls, self._pbc)
+        return 
+
+    def deposit(self, j_latt):
+        """Deposit a particle at lattice point j_latt.
+
+        Ballistic deposition model is used.
+        
+        """
+        self._heights = c_evolve.depositRD(j_latt, self._heights, self._pbc)
+        return
      
 
 

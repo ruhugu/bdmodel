@@ -23,7 +23,6 @@ cimport numpy as cnp
 # Numpy-C-API:
 # https://docs.scipy.org/doc/numpy/reference/c-api.html
 #np.import_array()
-
 import numpy as np
 
 # This tells Cython that there is a c_evolveBD function defined elsewhere
@@ -35,13 +34,23 @@ import numpy as np
 # http://cython-docs2.readthedocs.io/en/latest/src/userguide/external_C_code.html
 cdef extern from "c_evolve.h":
     void c_evolveBD(long int* in_heights, long int* out_heights, int length, 
-                  long int nsteps, long int* pbc)
-
-cdef extern from "c_evolve.h":
+                    long int nsteps, long int* pbc)
+    void c_evolveRD(long int* in_heights, long int* out_heights, int length, 
+                    long int nsteps, long int* pbc)
     void c_depositBD(int j_latt, long int *heights, long int* pbc);
+    void c_depositRD(int j_latt, long int *heights, long int* pbc);
 
 cdef extern from "dranxor2/dranxor2C.h":
     void dranini_(int*)
+
+
+# Define a new c type for a function taking the arguments of an
+# of an evolution function. This is needed for passing functions
+# as arguments in Cython functions.
+# Do the same with deposit functions
+ctypedef void (*ev_func)(long int*, long int*, int, long int, long int*)
+ctypedef void (*dep_func)(int, long int*, long int*)
+
 
 # Define a wrapper function that will act as a bridge between Python and 
 # the C function <--- no se hasta que punto es esto totalmente cierto
@@ -64,12 +73,13 @@ cdef extern from "dranxor2/dranxor2C.h":
 # specified type, automatic conversion will be attempted.
 # http://cython.readthedocs.io/en/latest/src/userguide/language_basics.html
 
-def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
-             int n,
-             cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+cdef evolve_wrapper(cnp.ndarray[long int, ndim=1, mode="c"] in_heights,
+                    int n,
+                    cnp.ndarray[long int, ndim=1, mode="c"] pbc,
+                    ev_func evolvefunc):
     """Evolves in_heights lattice heights throwing nsteps particles.
     
-    This function uses the nearest neighbour sticking rule.
+    The evolution algorithm used is defined in evolvefunc.
     
     Parameters
     ----------
@@ -88,7 +98,8 @@ def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
                                                     np.zeros(length, dtype=int)
 
-    c_evolveBD(<long int*> cnp.PyArray_DATA(in_heights),    
+    evolvefunc(
+               <long int*> cnp.PyArray_DATA(in_heights),    
                <long int*> cnp.PyArray_DATA(out_heights), 
                length, n,
                <long int*> cnp.PyArray_DATA(pbc))
@@ -96,15 +107,16 @@ def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
     return out_heights
 
 
-def depositBD(int j_latt,
-              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
-              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
-    """Deposite a particle a lattice point 'j_lat'.
+cdef deposit_wrapper(int j_latt,
+                     cnp.ndarray[long int, ndim=1, mode="c"] in_heights,
+                     cnp.ndarray[long int, ndim=1, mode="c"] pbc,
+                     dep_func depositfunc):
+    """Deposit a particle at lattice point 'j_lat'.
     
     Takes the surface given by in_heights and returns the resulting 
     lattice after depositing the particle in the given point.
 
-    This function uses the nearest neighbour sticking rule.
+    The sticking algorithm used is defined in "depositfunc".
     
     Parameters
     ----------
@@ -122,18 +134,56 @@ def depositBD(int j_latt,
     length = in_heights.size
 
     if j_latt >= length or j_latt < 0:
-        raise IndexError("j_lat is out of range")
+        raise IndexError("j_latt is out of range")
     
     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
                                                     np.zeros(length, dtype=int)
 
     out_heights = np.copy(in_heights, order="c")
     
-    c_depositBD(<int> j_latt,
+    depositfunc(<int> j_latt,
                 <long int*> cnp.PyArray_DATA(out_heights),
                 <long int*> cnp.PyArray_DATA(pbc))
     
-    return out_heights;
+    return out_heights
+
+
+def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+              int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+    """Evolve the heights according to the ballistic deposition model.
+
+    """
+    out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveBD)
+    return out_heights
+
+
+def evolveRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+              int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+    """Evolve the heights according to the random deposition model.
+
+    """
+    out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRD)
+    return out_heights
+
+
+def depositBD(int j_latt,
+              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+    """Deposit a particle using the ballistic deposition model.
+
+    """
+    out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositBD)
+    return out_heights
+
+
+def depositRD(int j_latt,
+              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+    """Deposit a particle using the random deposition model.
+ 
+    """
+    out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositRD)
+    return out_heights
     
 
 def seed(int iseed): 
