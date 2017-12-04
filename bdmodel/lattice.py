@@ -202,33 +202,87 @@ class Lattice:
         return
 
     # Plot methods
-    def _plot_measures(self, ys, log=False, **plt_args):
+    def _plot_measures(self, ys, relinterval=[0,1], log=False,
+                       reg=True, **plt_args):
+        # TODO update docs
         """Auxilar plot function.
             
-        Plots the ys versus the time of each measure.
+        Plots the results of the measures "ys" versus the time 
+        (in :term:`MCS`) of each measure (self._ts_MCS).
+
+        Parameters
+        ----------
+            ys : numpy array 
+                Measure values to be plotted in the y-axis. 
+            log : bool
+                If True, plots in loglog scale. Defaults to False.
+            **plt_args : keyword argument dict
+                Dictionary with the keyword arguments to be passed
+                to the :py:func:~matplotlib.pyplot.plot() function.
         """
         # TODO: improve this doc
         if (ys.size != self._nmeasures):
             raise ValueError("ys size is different from the number of"
-                                                                "measures.")
-        # Use makers only by default
+                                                            "measures.")
+        # Use only markers by default
         if all(not k in plt_args for k in ("linestyle", "marker")):
             plt_args["linestyle"] = ""
             plt_args["marker"] = "o"
             plt_args["markersize"] = np.clip(300./self._nmeasures, 2, 8)
+
+        # Use the data in the given interval
+        relinterval = np.array(relinterval)
+        [ini, end] = (self._nmeasures*relinterval).astype(int)
+        end -= 1
+        
+        # Define the x vector
+        xs = self._ts_MCS[ini:end]
+        ys = ys[ini:end]
+        
+        # Calculate the fitting line according to the plot type
+        if reg:
+            if log:
+                reg_coef = np.polyfit(np.log10(xs), np.log10(ys), 1)
+                def reg_func(t): return (np.power(10, reg_coef[1])
+                                                        *np.power(t, reg_coef[0]))
+            else:
+                reg_coef = np.polyfit(xs, ys, 1)
+                reg_func = np.poly1d(reg_coef) 
         
         size = 4
         plt.figure(figsize=(1.62*size, size))
 
-        if log==False:
-            plt.plot(self._ts_MCS, ys, **plt_args)
+        if log:
+            plt.loglog(xs, ys, **plt_args)
         else:
-            plt.loglog(self._ts_MCS, ys, **plt_args)
-
-        plt.xlabel(r"$t (MCS)$")
+            plt.plot(xs, ys, **plt_args)
+        
+        # Plot regression line
+        if reg:
+            plt.plot(xs, reg_func(xs)) 
+            
+            text_relx = 0.8
+            text_rely = 0.05
+            #relxpos = 1./4
+            #relyoffset = 0.1
+            #if log:
+            #    text_x = np.power(xs[0], 1. - relxpos)*np.power(xs[-1], relxpos)
+            #    text_y = reg_func(text_x)*np.power(ys[-1]/ys[0], relyoffset)
+            #else:
+            #    text_x = (1 - relposx)*xs[0] - relposx*xs[-1]
+            #    text_y = reg_func(text_x) + relyoffset*(ys[-1] - ys[0])
+            
+            plt.text(text_relx, text_rely, "m = {:.5f}".format(reg_coef[0]), 
+                     transform=(plt.gca()).transAxes)
+            
+        plt.xlabel(r"$t\,(MCS)$")
         plt.tight_layout()
         
-        return 
+        if reg:
+            return reg_coef
+        else:
+            return 
+
 
     def plot_meanheight(self, log=False, **plt_args):
         self._plot_measures(self._meanheights, log=log, **plt_args)
@@ -248,13 +302,16 @@ class Lattice:
         return
 
     # TODO: merge wiwth non averaged function
-    def plot_meanheight_ravg(self, log=False, **plt_args):
-        self._plot_measures(self._meanheights_ravg, log=log, **plt_args)
+    def plot_meanheight_ravg(self, log=False, reg=True, **plt_args):
+        self._plot_measures(self._meanheights_ravg, log=log, reg=True,
+                            **plt_args)
         plt.show()
         return
     
     # TODO: merge with non averaged function
-    def plot_width_ravg(self, log=True, **plt_args):
+    def plot_width_ravg(self, relinterval=[0,1], log=True, reg=False, 
+                        **plt_args):
+        # TODO update docs
         """Plot the run averaged interface width against time.
 
         Parameters
@@ -266,14 +323,17 @@ class Lattice:
                 :func:`matplotlib.pyplot.plot` function.
 
         """ 
-        self._plot_measures(self._widths_ravg, log=log, **plt_args)
+        reg_coef = self._plot_measures(self._widths_ravg, relinterval=relinterval,
+                                       log=log, reg=reg, **plt_args)
+        if reg:
+            self.reg_beta = reg_coef[0]
 
         # Draw line showing expected slope
         # TODO: add offset to line and label with the value of beta
-        def logline(t):
-            return self._widths_ravg[0]*np.power(t/self._ts_MCS[0], self.beta)
+        #def logline(t):
+        #    return self._widths_ravg[0]*np.power(t/self._ts_MCS[0], self.beta)
 
-        plt.plot(self._ts_MCS, logline(self._ts_MCS))
+        #plt.plot(self._ts_MCS, logline(self._ts_MCS))
         plt.ylabel(r"$w$")
         plt.show()
 
@@ -361,6 +421,10 @@ class RDLattice(Lattice):
         """
         self._heights = c_evolve.depositRD(j_latt, self._heights, self._pbc)
         return
+
+    def plot_width_ravg(self, log=True, reg=True, **plt_args):
+        Lattice.plot_width_ravg(self, log=log, reg=reg, **plt_args)
+        return 
      
 
 class RDdiffLattice(Lattice):
