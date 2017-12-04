@@ -6,13 +6,17 @@ import numpy as np
 import random
 from . import c_evolve
 
-class Lattice:
+class Lattice(object):
     """Lattice object.
     
     Attributes
     ----------
         
     """
+    # List of attributes to be saved/loaded from file
+#    self._attrList = [  "length",
+#                        "  
+    
     def __init__(self, length, seed=None, heighttype=int):
         self._length = length 
         self._heighttype = heighttype
