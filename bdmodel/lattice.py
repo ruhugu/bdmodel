@@ -13,9 +13,21 @@ class Lattice(object):
     ----------
         
     """
-    # List of attributes to be saved/loaded from file
-#    self._attrList = [  "length",
-#                        "  
+
+    List of attributes to be saved/loaded from file
+    self._attrList = [  "length",
+                        "heights",
+                        "_nruns ",
+                        "_measuretime",
+                        "_nmeasures",
+                        "_logt",
+                        "_ts_MCS",
+                        "_ts_prtcl"
+                        "_meanheights",
+                        "_widths",
+                        "_meanheights_ravg",
+                        "_widths_ravg",
+                     ]
     
     def __init__(self, length, seed=None, heighttype=int):
         self._length = length 
@@ -204,6 +216,38 @@ class Lattice(object):
         self._widths_ravg = widths_sum/nruns
         
         return
+
+    # File I/O methods
+
+    def savetxt(self, fname):
+        with open(fname, 'w') as f:
+            classname = type(self).__name__
+            f.write('{}\n'.format(classname)) 
+        
+            for attr in self.attrlist:
+                if type(attr) is np.ndarray:
+                    s_attr = attr.tostring()
+                else: 
+                    s_attr = str(attr)
+                f.write('{}\n'.format(s_attr))
+
+    def loadtxt(self, fname):
+        with open(fname, 'r') as f:
+            line = f.readline()
+            classname = line.strip()
+
+            for
+            
+            classname = type(self).__name__
+            f.write('{}\n'.format(classname)) 
+        
+            for attr in self.attrlist:
+                if type(attr) is np.ndarray:
+                    s_attr = attr.tostring()
+                else: 
+                    s_attr = str(attr)
+                f.write('{}\n'.format(s_attr))
+
 
     # Plot methods
     def _plot_measures(self, ys, relinterval=[0,1], log=False,
