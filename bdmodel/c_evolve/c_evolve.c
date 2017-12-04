@@ -36,12 +36,21 @@ void c_evolveBD(long int* in_heights, long int* out_heights, int length,
 }
 
 
-// Evolution function using ballistic deposition model. The model details
+// Evolution function using random deposition model. The model details
 // are implemented via the funcion c_depositRD.
 void c_evolveRD(long int* in_heights, long int* out_heights, int length, 
                 long int nsteps, long int* pbc)
 {
     c_evolve(in_heights, out_heights, length, nsteps, pbc, c_depositRD);  
+    return;
+}
+
+// Evolution function using random deposition model with relaxation. 
+// The model details are implemented via the funcion c_depositRelaxRD.
+void c_evolveRelaxRD(long int* in_heights, long int* out_heights, int length, 
+                    long int nsteps, long int* pbc)
+{
+    c_evolve(in_heights, out_heights, length, nsteps, pbc, c_depositRelaxRD);  
     return;
 }
 
@@ -105,6 +114,47 @@ void c_depositRD(int j_latt, long int *heights, long int* pbc)
         return;
 }
 
+// Throw a particle in the "j_latt" point of the lattice given
+// by "heights" and return the resulting lattice heights using
+// the random deposition model.
+// j_latt must be a number between 0 and length - 1 (the 
+// function does not check this, so be careful).
+void c_depositRelaxRD(int j_latt, long int *heights, long int* pbc)
+{
+        int deppos;
+        bool fallsleft;
+
+        // We use (j_latt + 1) because of the way pbc is
+        // defined (heights[pbc[i]] = heights[i-1] with
+        // the exceptions heights[pbc[0]] = heights[length-1] 
+        // and heights[pbc[length+1]] = heights[0]).
+
+        // Temporal deposition position
+        deppos = j_latt;
+        fallsleft = heights[pbc[(j_latt + 1) - 1]] < heights[deppos];
+        
+        if (fallsleft) 
+            deppos = pbc[(deppos + 1) - 1];
+
+        if (heights[pbc[(j_latt + 1) + 1]] < heights[deppos])
+        {
+            deppos = pbc[(j_latt + 1) + 1];
+        }
+
+        // TODO: rewrite this to avoid long line
+        // If the heights of the left and right position are equal
+        // choose randomly
+        if (fallsleft && (heights[pbc[(j_latt + 1) + 1]] == heights[deppos]))
+        {
+            if (dranu_() > 0.5)
+                deppos = pbc[(j_latt + 1) + 1];
+        }
+
+        heights[deppos] += 1;
+        
+        return;
+}
+
 
 // Return the maximum of the 3 given numbers.
 long int max_three(long int a, long int b, long int c)
@@ -118,3 +168,13 @@ long int max_three(long int a, long int b, long int c)
 }
     
  
+// Return the minimum of the 3 given numbers.
+long int min_three(long int a, long int b, long int c)
+{
+    long int ret;    
+    
+    ret = a < b ? a : b;
+    ret = c < ret ? c : ret;
+    
+    return ret;
+}

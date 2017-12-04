@@ -39,8 +39,11 @@ cdef extern from "c_evolve.h":
                     long int nsteps, long int* pbc)
     void c_evolveRDdiff(double* in_heights, double* out_heights, double ht,
                         int length, long int nMCsteps, long int* pbc)
-    void c_depositBD(int j_latt, long int *heights, long int* pbc);
-    void c_depositRD(int j_latt, long int *heights, long int* pbc);
+    void c_evolveRelaxRD(long int* in_heights, long int* out_heights, 
+                        int length, long int nsteps, long int* pbc)
+    void c_depositBD(int j_latt, long int *heights, long int* pbc)
+    void c_depositRD(int j_latt, long int *heights, long int* pbc)
+    void c_depositRelaxRD(int j_latt, long int *heights, long int* pbc)
 
 cdef extern from "dranxor2/dranxor2C.h":
     void dranini_(int*)
@@ -202,6 +205,14 @@ def evolveRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,
 
     return out_heights
 
+# TODO: rewrite docs shorter
+def evolveRelaxRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+                  int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+    """Evolve the heights according to random deposition model with relaxation.
+
+    """
+    out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRelaxRD)
+    return out_heights
 
 def depositBD(int j_latt,
               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
@@ -222,6 +233,14 @@ def depositRD(int j_latt,
     out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositRD)
     return out_heights
     
+def depositRelaxRD(int j_latt,
+              cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
+              cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
+    """Deposit a particle using the random deposition model with relaxation.
+ 
+    """
+    out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositRelaxRD)
+    return out_heights
 
 def seed(int iseed): 
     """Initialize the random number generator in the c extension.

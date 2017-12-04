@@ -465,6 +465,50 @@ class RDdiffLattice(Lattice):
         return 
 
 
+# TODO: shorter docs
+class RelaxRDLattice(Lattice):
+    """Lattice with evolution following the random deposition model with relaxation.
+
+    """
+
+    # Random deposition scaling exponents
+    _beta_RelaxRD = 1./4.
+    _alpha_RelaxRD = 1./2
+    _zeta_RelaxRD = 2.
+    def __init__(self, length, seed=None):
+        Lattice.__init__(self, length, seed=seed)
+
+        # Initialize the scaling exponents of the lattice to those
+        # of the KPZ universality class.
+        self.beta = RelaxRDLattice._beta_RelaxRD
+
+
+    def evolve(self, nprtcls):
+        """Evolve the system by depositing nprtcls particles.
+    
+        The depositions are made using the random deposition model.
+            
+        Parameters
+        ----------
+            nprtcls : int
+                Number of particles to deposit.
+
+        """
+        self._heights = c_evolve.evolveRelaxRD(self._heights, nprtcls, 
+                                                                    self._pbc)
+        return 
+
+    def deposit(self, j_latt):
+        """Deposit a particle at lattice point j_latt.
+
+        Ballistic deposition model is used.
+        
+        """
+        self._heights = c_evolve.depositRelaxRD(j_latt, self._heights, 
+                                                self._pbc)
+        return
+
+
 def plot_scaledwidth(latt_list, alpha=None, z=None, log=True):
     """Scale different (interface width)-time plots to show data collapse.
 
