@@ -4,15 +4,32 @@ from __future__ import (print_function, division,
 from matplotlib import pyplot as plt
 import numpy as np
 import random
+import pickle
 from . import c_evolve
 
-class Lattice:
+class Lattice(object):
     """Lattice object.
     
     Attributes
     ----------
         
     """
+
+    # List of attributes to be saved/loaded from file
+    _attrlist = [   "length",
+                    "heights",
+                    "_nruns ",
+                    "_measuretime",
+                    "_nmeasures",
+                    "_logt",
+                    "_ts_MCS",
+                    "_ts_prtcl"
+                    "_meanheights",
+                    "_widths",
+                    "_meanheights_ravg",
+                    "_widths_ravg"
+                     ]
+    
     def __init__(self, length, seed=None, heighttype=int):
         self._length = length 
         self._heighttype = heighttype
@@ -201,6 +218,24 @@ class Lattice:
         
         return
 
+    # File I/O methods
+
+    def savetxt(self, fname):
+    
+        with open(fname, 'w') as f:
+            pickle.dump(self, f)
+            #classname = type(self).__name__
+            #f.write('{}\n'.format(classname)) 
+        
+            #for attr in self._attrlist:
+            #    if type(attr) is np.ndarray:
+            #        s_attr = attr.tostring()
+            #    else: 
+            #        s_attr = str(attr)
+            #    f.write('{}\n'.format(s_attr))
+        return
+
+
     # Plot methods
     def _plot_measures(self, ys, relinterval=[0,1], log=False,
                        reg=True, **plt_args):
@@ -382,6 +417,7 @@ class BDLattice(Lattice):
         """
         self._heights = c_evolve.depositBD(j_latt, self._heights, self._pbc)
         return
+
     
 class RDLattice(Lattice):
     """Lattice with evolution following the random deposition model.
@@ -508,6 +544,26 @@ class RelaxRDLattice(Lattice):
                                                 self._pbc)
         return
 
+
+# TODO: docs
+def loadtxt(fname):
+    with open(fname, 'r') as f:
+        obj = pickle.load(f)
+        #line = f.readline()
+        #classname = line.strip()
+
+        #attr_dict = dict()
+        #for attr_name in Lattice._attrlist:
+        #    line = (f.readline()).strip()
+
+        #    # If line is a string of a numpy array
+        #    # (notice the scaping)
+        #    if line[0] == '\\':
+        #        attr_dict[attr_name] = np.fromstring(line) 
+        #    else:
+        #        attr_dict[attr_name] = float(line)
+    return obj
+        
 
 def plot_scaledwidth(latt_list, alpha=None, z=None, log=True):
     """Scale different (interface width)-time plots to show data collapse.
