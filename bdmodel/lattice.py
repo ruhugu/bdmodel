@@ -217,6 +217,8 @@ class Lattice(object):
         self._widths_ravg = widths_sum/nruns
         
         return
+    
+    # TODO: add method to continue measuring keeping the previous data
 
     # File I/O methods
 
@@ -319,26 +321,20 @@ class Lattice(object):
             return 
 
 
-    def plot_meanheight(self, log=False, **plt_args):
-        self._plot_measures(self._meanheights, log=log, **plt_args)
+    def plot_meanheight(self, log=False, reg=False, **plt_args):
+        self._plot_measures(self._meanheights, log=log, reg=reg, **plt_args)
         plt.show()
         return
 
-    def plot_width(self, log=True, **plt_args):
-        self._plot_measures(self._widths, log=log, **plt_args)
+    def plot_width(self, log=True, reg=False, **plt_args):
+        self._plot_measures(self._widths, log=log, reg=reg, **plt_args)
         
-        # Draw line showing expected slope
-        # TODO: add offset to line and label with the value of beta
-        def logline(t):
-            return self._widths[0]*np.power(t/self._ts_MCS[0], self.beta)
-
-        plt.plot(self._ts_MCS, logline(self._ts_MCS))
         plt.show()
         return
 
     # TODO: merge wiwth non averaged function
     def plot_meanheight_ravg(self, log=False, reg=True, **plt_args):
-        self._plot_measures(self._meanheights_ravg, log=log, reg=True,
+        self._plot_measures(self._meanheights_ravg, log=log, reg=reg,
                             **plt_args)
         plt.show()
         return
