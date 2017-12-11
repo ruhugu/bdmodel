@@ -140,11 +140,10 @@ void c_depositRelaxRD(int j_latt, long int *heights, long int* pbc)
         {
             deppos = pbc[(j_latt + 1) + 1];
         }
-
         // TODO: rewrite this to avoid long line
         // If the heights of the left and right position are equal
         // choose randomly
-        if (fallsleft && (heights[pbc[(j_latt + 1) + 1]] == heights[deppos]))
+        else if (fallsleft && (heights[pbc[(j_latt+1)+1]] == heights[deppos]))
         {
             if (dranu_() > 0.5)
                 deppos = pbc[(j_latt + 1) + 1];
@@ -153,6 +152,46 @@ void c_depositRelaxRD(int j_latt, long int *heights, long int* pbc)
         heights[deppos] += 1;
         
         return;
+}
+
+//TODO: DOCS!!
+void c_evolveRelaxRDdiff(double* in_heights, double* out_heights, double ht,
+                                int length, long int nsteps, long int* pbc)
+{
+    int j_latt;
+    double sqrt2ht;
+    double lapl;
+
+    // Store the square root of twice the timestep to avoid calculating it 
+    // in each iteration
+    sqrt2ht = sqrt(2.*ht);
+
+    //Initialize out_heights with the values in in_heights
+    for (int i=0; i<length; i++) out_heights[i] = in_heights[i];
+    
+    for (int t=0; t<nsteps; t++)
+    {
+        j_latt = 0;
+        lapl = out_heights[j_latt + 1] - 2*out_heights[j_latt] 
+                                                + out_heights[length - 1];
+
+        out_heights[j_latt] = out_heights[j_latt] + ht*lapl + sqrt2ht*drang_();
+    
+        for (j_latt=1; j_latt<length - 1; j_latt++)
+        {
+            lapl = out_heights[j_latt + 1] - 2*out_heights[j_latt] 
+                                                    + out_heights[j_latt - 1];
+
+            out_heights[j_latt] = out_heights[j_latt] + ht*lapl + sqrt2ht*drang_();
+        }
+
+        j_latt = length - 1;
+        lapl = out_heights[0] - 2*out_heights[j_latt] 
+                                                + out_heights[j_latt - 1];
+        out_heights[j_latt] = out_heights[j_latt] + ht*lapl + sqrt2ht*drang_();
+    }
+        
+    return;
 }
 
 

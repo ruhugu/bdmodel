@@ -41,6 +41,8 @@ cdef extern from "c_evolve.h":
                         int length, long int nMCsteps, long int* pbc)
     void c_evolveRelaxRD(long int* in_heights, long int* out_heights, 
                         int length, long int nsteps, long int* pbc)
+    void c_evolveRelaxRDdiff(double* in_heights, double* out_heights, double ht,
+                             int length, long int nMCsteps, long int* pbc)
     void c_depositBD(int j_latt, long int *heights, long int* pbc)
     void c_depositRD(int j_latt, long int *heights, long int* pbc)
     void c_depositRelaxRD(int j_latt, long int *heights, long int* pbc)
@@ -54,6 +56,8 @@ cdef extern from "dranxor2/dranxor2C.h":
 # as arguments in Cython functions.
 # Do the same with deposit functions
 ctypedef void (*ev_func)(long int*, long int*, int, long int, long int*)
+ctypedef void (*ev_func_double)(double*, double*, double, int,
+                                                    long int, long int*)
 ctypedef void (*dep_func)(int, long int*, long int*)
 
 
@@ -108,6 +112,40 @@ cdef evolve_wrapper(cnp.ndarray[long int, ndim=1, mode="c"] in_heights,
                <long int*> cnp.PyArray_DATA(in_heights),    
                <long int*> cnp.PyArray_DATA(out_heights), 
                length, n,
+               <long int*> cnp.PyArray_DATA(pbc))
+
+    return out_heights
+
+# TODO rewrite docs
+cdef evolve_wrapper_double(cnp.ndarray[double, ndim=1, mode="c"] in_heights,
+                            double ht, int n,
+                            cnp.ndarray[long int, ndim=1, mode="c"] pbc,
+                            ev_func_double evolve_func):
+    """Evolves in_heights lattice heights throwing nsteps particles.
+    
+    The evolution algorithm used is defined in evolvefunc.
+    
+    Parameters
+    ----------
+        in_heights : 1-d int array
+            Array with the initial height of each lattice point.
+        n : int
+            Number of particles to be thrown over the lattice.
+
+    Returns:
+        out_heights : 1-d int array
+            Array with the final height of each lattice point after
+            the deposition of the n particles.
+
+    """
+    length = in_heights.size
+    cdef cnp.ndarray[double, ndim=1, mode="c"] out_heights = \
+                                                np.zeros(length, dtype=float)
+
+    evolve_func(
+               <double*> cnp.PyArray_DATA(in_heights),    
+               <double*> cnp.PyArray_DATA(out_heights), 
+               ht, length, n,
                <long int*> cnp.PyArray_DATA(pbc))
 
     return out_heights
@@ -172,6 +210,7 @@ def evolveRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRD)
     return out_heights
 
+# TODO: rewrite using the wrapper
 # TODO rewrite docs
 def evolveRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,
                  double ht, int n,
@@ -212,6 +251,15 @@ def evolveRelaxRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
 
     """
     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRelaxRD)
+    return out_heights
+
+# TODO: docs!
+def evolveRelaxRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,
+                      double ht, int n,
+                      cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+
+    out_heights = evolve_wrapper_double(in_heights, ht, n, pbc, 
+                                                    c_evolveRelaxRDdiff)
     return out_heights
 
 def depositBD(int j_latt,

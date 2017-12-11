@@ -15,6 +15,8 @@ void c_evolveRDdiff(double* in_heights, double* out_heights, double ht,
                     int length, long int nMCsteps, long int* pbc);
 void c_evolveRelaxRD(long int* in_heights, long int* out_heights, int length, 
                 long int nsteps, long int* pbc);
+void c_evolveRelaxRDdiff(double* in_heights, double* out_heights, double ht,
+                         int length, long int nsteps, long int* pbc);
 
 void c_depositBD(int j_latt, long int *heights, long int* pbc);
 void c_depositRD(int j_latt, long int *heights, long int* pbc);

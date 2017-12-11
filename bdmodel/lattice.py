@@ -135,6 +135,9 @@ class Lattice(object):
         return
         
 
+    # TODO: add method to continue measuaring while keeping data from pre
+    #           previous measures.
+    # TODO: change beahaviour to save data when stopping the method
     def measure(self, measuretime, nmeasures, nruns=1, log=True):
         """Measure interface width and mean height over time.
 
@@ -185,7 +188,7 @@ class Lattice(object):
                                         "reduced to {}".format(self._nmeasures))
             
         else:
-            # Check the intervals are big enought so that we do not get
+            # Check the intervals are big enough so that we do not get
             # repeated time values when we truncate to integers.
             if nmeasures > measuretime:            
                 raise ValueError("The number of measures is bigger than"
@@ -463,10 +466,9 @@ class RDLattice(Lattice):
         return 
      
 
+# TODO: set ht in the measure method instead of the constructor
+# TODO docs
 class RDdiffLattice(Lattice):
-    """Lattice with evolution following the random deposition model.
-
-    """
 
     # Random deposition scaling exponents
     _beta_RD = 1./2.
@@ -515,8 +517,10 @@ class RelaxRDLattice(Lattice):
         Lattice.__init__(self, length, seed=seed)
 
         # Initialize the scaling exponents of the lattice to those
-        # of the KPZ universality class.
+        # of the universality class.
         self.beta = RelaxRDLattice._beta_RelaxRD
+        self.alpha = RelaxRDLattice._alpha_RelaxRD
+        self.zeta = RelaxRDLattice._zeta_RelaxRD 
 
 
     def evolve(self, nprtcls):
@@ -543,6 +547,42 @@ class RelaxRDLattice(Lattice):
         self._heights = c_evolve.depositRelaxRD(j_latt, self._heights, 
                                                 self._pbc)
         return
+
+
+# TODO: set ht in the measure method instead of the constructor
+# TODO: docs
+class RelaxRDdiffLattice(Lattice):
+
+    def __init__(self, length, ht=0.01, seed=None):
+        # ht viene dado en unidades de MCS
+        Lattice.__init__(self, length, seed=seed, heighttype=float)
+
+        self._ht = ht
+
+        # Initialize the scaling exponents of the lattice to those
+        # of the universality class.
+        self.beta = RelaxRDLattice._beta_RelaxRD
+        self.alpha = RelaxRDLattice._alpha_RelaxRD
+        self.zeta = RelaxRDLattice._zeta_RelaxRD 
+
+
+    def evolve(self, nprtcls):
+        """Evolve the system by depositing nprtcls particles.
+    
+        The depositions are made using the random deposition model.
+            
+        Parameters
+        ----------
+            nprtcls : int
+                Number of particles to deposit.
+
+        """
+        # Translate prtcls into MCS and then to timesteps
+        nsteps = int((float(nprtcls)/self.length)/self._ht)
+        
+        self._heights = c_evolve.evolveRelaxRDdiff(self._heights, self._ht, 
+                                                       nsteps, self._pbc)
+        return 
 
 
 # TODO: docs

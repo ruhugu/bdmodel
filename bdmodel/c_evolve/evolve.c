@@ -1043,18 +1043,27 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "evolve.pyx":56
+/* "evolve.pyx":58
  * # as arguments in Cython functions.
  * # Do the same with deposit functions
  * ctypedef void (*ev_func)(long int*, long int*, int, long int, long int*)             # <<<<<<<<<<<<<<
- * ctypedef void (*dep_func)(int, long int*, long int*)
- * 
+ * ctypedef void (*ev_func_double)(double*, double*, double, int,
+ *                                                     long int, long int*)
  */
 typedef void (*__pyx_t_6evolve_ev_func)(long *, long *, int, long, long *);
 
-/* "evolve.pyx":57
+/* "evolve.pyx":59
  * # Do the same with deposit functions
  * ctypedef void (*ev_func)(long int*, long int*, int, long int, long int*)
+ * ctypedef void (*ev_func_double)(double*, double*, double, int,             # <<<<<<<<<<<<<<
+ *                                                     long int, long int*)
+ * ctypedef void (*dep_func)(int, long int*, long int*)
+ */
+typedef void (*__pyx_t_6evolve_ev_func_double)(double *, double *, double, int, long, long *);
+
+/* "evolve.pyx":61
+ * ctypedef void (*ev_func_double)(double*, double*, double, int,
+ *                                                     long int, long int*)
  * ctypedef void (*dep_func)(int, long int*, long int*)             # <<<<<<<<<<<<<<
  * 
  * 
@@ -1525,6 +1534,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 
 /* Module declarations from 'evolve' */
 static PyObject *__pyx_f_6evolve_evolve_wrapper(PyArrayObject *, int, PyArrayObject *, __pyx_t_6evolve_ev_func); /*proto*/
+static PyObject *__pyx_f_6evolve_evolve_wrapper_double(PyArrayObject *, double, int, PyArrayObject *, __pyx_t_6evolve_ev_func_double); /*proto*/
 static PyObject *__pyx_f_6evolve_deposit_wrapper(int, PyArrayObject *, PyArrayObject *, __pyx_t_6evolve_dep_func); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_long = { "long", NULL, sizeof(long), { 0 }, 0, IS_UNSIGNED(long) ? 'U' : 'I', IS_UNSIGNED(long), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
@@ -1572,6 +1582,7 @@ static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_evolveRDdiff[] = "evolveRDdiff";
 static const char __pyx_k_evolveRelaxRD[] = "evolveRelaxRD";
 static const char __pyx_k_depositRelaxRD[] = "depositRelaxRD";
+static const char __pyx_k_evolveRelaxRDdiff[] = "evolveRelaxRDdiff";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_j_latt_is_out_of_range[] = "j_latt is out of range";
 static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
@@ -1601,6 +1612,7 @@ static PyObject *__pyx_n_s_evolveBD;
 static PyObject *__pyx_n_s_evolveRD;
 static PyObject *__pyx_n_s_evolveRDdiff;
 static PyObject *__pyx_n_s_evolveRelaxRD;
+static PyObject *__pyx_n_s_evolveRelaxRDdiff;
 static PyObject *__pyx_kp_s_evolve_pyx;
 static PyObject *__pyx_n_s_ht;
 static PyObject *__pyx_n_s_import;
@@ -1630,10 +1642,11 @@ static PyObject *__pyx_pf_6evolve_evolveBD(CYTHON_UNUSED PyObject *__pyx_self, P
 static PyObject *__pyx_pf_6evolve_2evolveRD(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, int __pyx_v_n, PyArrayObject *__pyx_v_pbc); /* proto */
 static PyObject *__pyx_pf_6evolve_4evolveRDdiff(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, double __pyx_v_ht, int __pyx_v_n, PyArrayObject *__pyx_v_pbc); /* proto */
 static PyObject *__pyx_pf_6evolve_6evolveRelaxRD(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, int __pyx_v_n, PyArrayObject *__pyx_v_pbc); /* proto */
-static PyObject *__pyx_pf_6evolve_8depositBD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
-static PyObject *__pyx_pf_6evolve_10depositRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
-static PyObject *__pyx_pf_6evolve_12depositRelaxRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
-static PyObject *__pyx_pf_6evolve_14seed(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_iseed); /* proto */
+static PyObject *__pyx_pf_6evolve_8evolveRelaxRDdiff(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, double __pyx_v_ht, int __pyx_v_n, PyArrayObject *__pyx_v_pbc); /* proto */
+static PyObject *__pyx_pf_6evolve_10depositBD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
+static PyObject *__pyx_pf_6evolve_12depositRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
+static PyObject *__pyx_pf_6evolve_14depositRelaxRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc); /* proto */
+static PyObject *__pyx_pf_6evolve_16seed(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_iseed); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_tuple_;
@@ -1654,6 +1667,7 @@ static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__27;
 static PyObject *__pyx_codeobj__12;
 static PyObject *__pyx_codeobj__14;
 static PyObject *__pyx_codeobj__16;
@@ -1662,8 +1676,9 @@ static PyObject *__pyx_codeobj__20;
 static PyObject *__pyx_codeobj__22;
 static PyObject *__pyx_codeobj__24;
 static PyObject *__pyx_codeobj__26;
+static PyObject *__pyx_codeobj__28;
 
-/* "evolve.pyx":82
+/* "evolve.pyx":86
  * 
  * #TODO: add deposit_func to docs
  * cdef evolve_wrapper(cnp.ndarray[long int, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
@@ -1703,59 +1718,59 @@ static PyObject *__pyx_f_6evolve_evolve_wrapper(PyArrayObject *__pyx_v_in_height
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 86, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 82, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 86, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":103
+  /* "evolve.pyx":107
  * 
  *     """
  *     length = in_heights.size             # <<<<<<<<<<<<<<
  *     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
  *                                                     np.zeros(length, dtype=int)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_in_heights), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_in_heights), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_length = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":105
+  /* "evolve.pyx":109
  *     length = in_heights.size
  *     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
  *                                                     np.zeros(length, dtype=int)             # <<<<<<<<<<<<<<
  * 
  *     evolvefunc(
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_length);
   __Pyx_GIVEREF(__pyx_v_length);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_length);
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 109, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 109, __pyx_L1_error)
   __pyx_t_5 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_out_heights = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 104, __pyx_L1_error)
+      __PYX_ERR(0, 108, __pyx_L1_error)
     } else {__pyx_pybuffernd_out_heights.diminfo[0].strides = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_heights.diminfo[0].shape = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -1763,16 +1778,16 @@ static PyObject *__pyx_f_6evolve_evolve_wrapper(PyArrayObject *__pyx_v_in_height
   __pyx_v_out_heights = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "evolve.pyx":110
+  /* "evolve.pyx":114
  *                <long int*> cnp.PyArray_DATA(in_heights),
  *                <long int*> cnp.PyArray_DATA(out_heights),
  *                length, n,             # <<<<<<<<<<<<<<
  *                <long int*> cnp.PyArray_DATA(pbc))
  * 
  */
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 114, __pyx_L1_error)
 
-  /* "evolve.pyx":107
+  /* "evolve.pyx":111
  *                                                     np.zeros(length, dtype=int)
  * 
  *     evolvefunc(             # <<<<<<<<<<<<<<
@@ -1781,19 +1796,19 @@ static PyObject *__pyx_f_6evolve_evolve_wrapper(PyArrayObject *__pyx_v_in_height
  */
   __pyx_v_evolvefunc(((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_in_heights))), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), __pyx_t_6, __pyx_v_n, ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
 
-  /* "evolve.pyx":113
+  /* "evolve.pyx":117
  *                <long int*> cnp.PyArray_DATA(pbc))
  * 
  *     return out_heights             # <<<<<<<<<<<<<<
  * 
- * 
+ * # TODO rewrite docs
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(((PyObject *)__pyx_v_out_heights));
   __pyx_r = ((PyObject *)__pyx_v_out_heights);
   goto __pyx_L0;
 
-  /* "evolve.pyx":82
+  /* "evolve.pyx":86
  * 
  * #TODO: add deposit_func to docs
  * cdef evolve_wrapper(cnp.ndarray[long int, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
@@ -1830,7 +1845,174 @@ static PyObject *__pyx_f_6evolve_evolve_wrapper(PyArrayObject *__pyx_v_in_height
   return __pyx_r;
 }
 
-/* "evolve.pyx":117
+/* "evolve.pyx":120
+ * 
+ * # TODO rewrite docs
+ * cdef evolve_wrapper_double(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
+ *                             double ht, int n,
+ *                             cnp.ndarray[long int, ndim=1, mode="c"] pbc,
+ */
+
+static PyObject *__pyx_f_6evolve_evolve_wrapper_double(PyArrayObject *__pyx_v_in_heights, double __pyx_v_ht, int __pyx_v_n, PyArrayObject *__pyx_v_pbc, __pyx_t_6evolve_ev_func_double __pyx_v_evolve_func) {
+  PyObject *__pyx_v_length = NULL;
+  PyArrayObject *__pyx_v_out_heights = 0;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_in_heights;
+  __Pyx_Buffer __pyx_pybuffer_in_heights;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_out_heights;
+  __Pyx_Buffer __pyx_pybuffer_out_heights;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_pbc;
+  __Pyx_Buffer __pyx_pybuffer_pbc;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyArrayObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  __Pyx_RefNannySetupContext("evolve_wrapper_double", 0);
+  __pyx_pybuffer_out_heights.pybuffer.buf = NULL;
+  __pyx_pybuffer_out_heights.refcount = 0;
+  __pyx_pybuffernd_out_heights.data = NULL;
+  __pyx_pybuffernd_out_heights.rcbuffer = &__pyx_pybuffer_out_heights;
+  __pyx_pybuffer_in_heights.pybuffer.buf = NULL;
+  __pyx_pybuffer_in_heights.refcount = 0;
+  __pyx_pybuffernd_in_heights.data = NULL;
+  __pyx_pybuffernd_in_heights.rcbuffer = &__pyx_pybuffer_in_heights;
+  __pyx_pybuffer_pbc.pybuffer.buf = NULL;
+  __pyx_pybuffer_pbc.refcount = 0;
+  __pyx_pybuffernd_pbc.data = NULL;
+  __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  }
+  __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  }
+  __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
+
+  /* "evolve.pyx":141
+ * 
+ *     """
+ *     length = in_heights.size             # <<<<<<<<<<<<<<
+ *     cdef cnp.ndarray[double, ndim=1, mode="c"] out_heights = \
+ *                                                 np.zeros(length, dtype=float)
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_in_heights), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_length = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "evolve.pyx":143
+ *     length = in_heights.size
+ *     cdef cnp.ndarray[double, ndim=1, mode="c"] out_heights = \
+ *                                                 np.zeros(length, dtype=float)             # <<<<<<<<<<<<<<
+ * 
+ *     evolve_func(
+ */
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_v_length);
+  __Pyx_GIVEREF(__pyx_v_length);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_length);
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_5 = ((PyArrayObject *)__pyx_t_4);
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
+      __pyx_v_out_heights = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.buf = NULL;
+      __PYX_ERR(0, 142, __pyx_L1_error)
+    } else {__pyx_pybuffernd_out_heights.diminfo[0].strides = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_heights.diminfo[0].shape = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.shape[0];
+    }
+  }
+  __pyx_t_5 = 0;
+  __pyx_v_out_heights = ((PyArrayObject *)__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "evolve.pyx":148
+ *                <double*> cnp.PyArray_DATA(in_heights),
+ *                <double*> cnp.PyArray_DATA(out_heights),
+ *                ht, length, n,             # <<<<<<<<<<<<<<
+ *                <long int*> cnp.PyArray_DATA(pbc))
+ * 
+ */
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 148, __pyx_L1_error)
+
+  /* "evolve.pyx":145
+ *                                                 np.zeros(length, dtype=float)
+ * 
+ *     evolve_func(             # <<<<<<<<<<<<<<
+ *                <double*> cnp.PyArray_DATA(in_heights),
+ *                <double*> cnp.PyArray_DATA(out_heights),
+ */
+  __pyx_v_evolve_func(((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_in_heights))), ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), __pyx_v_ht, __pyx_t_6, __pyx_v_n, ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
+
+  /* "evolve.pyx":151
+ *                <long int*> cnp.PyArray_DATA(pbc))
+ * 
+ *     return out_heights             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(((PyObject *)__pyx_v_out_heights));
+  __pyx_r = ((PyObject *)__pyx_v_out_heights);
+  goto __pyx_L0;
+
+  /* "evolve.pyx":120
+ * 
+ * # TODO rewrite docs
+ * cdef evolve_wrapper_double(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
+ *                             double ht, int n,
+ *                             cnp.ndarray[long int, ndim=1, mode="c"] pbc,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("evolve.evolve_wrapper_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XDECREF(__pyx_v_length);
+  __Pyx_XDECREF((PyObject *)__pyx_v_out_heights);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "evolve.pyx":155
  * 
  * #TODO: add deposit_func to docs
  * cdef deposit_wrapper(int j_latt,             # <<<<<<<<<<<<<<
@@ -1875,39 +2057,39 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 155, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 155, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":141
+  /* "evolve.pyx":179
  * 
  *     """
  *     length = in_heights.size             # <<<<<<<<<<<<<<
  * 
  *     if j_latt >= length or j_latt < 0:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_in_heights), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_in_heights), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_length = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":143
+  /* "evolve.pyx":181
  *     length = in_heights.size
  * 
  *     if j_latt >= length or j_latt < 0:             # <<<<<<<<<<<<<<
  *         raise IndexError("j_latt is out of range")
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_j_latt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_j_latt); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_length, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_v_length, Py_GE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (!__pyx_t_4) {
   } else {
@@ -1919,20 +2101,20 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_2) {
 
-    /* "evolve.pyx":144
+    /* "evolve.pyx":182
  * 
  *     if j_latt >= length or j_latt < 0:
  *         raise IndexError("j_latt is out of range")             # <<<<<<<<<<<<<<
  * 
  *     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 144, __pyx_L1_error)
+    __PYX_ERR(0, 182, __pyx_L1_error)
 
-    /* "evolve.pyx":143
+    /* "evolve.pyx":181
  *     length = in_heights.size
  * 
  *     if j_latt >= length or j_latt < 0:             # <<<<<<<<<<<<<<
@@ -1941,38 +2123,38 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
  */
   }
 
-  /* "evolve.pyx":147
+  /* "evolve.pyx":185
  * 
  *     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
  *                                                     np.zeros(length, dtype=int)             # <<<<<<<<<<<<<<
  * 
  *     out_heights = np.copy(in_heights, order="c")
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_length);
   __Pyx_GIVEREF(__pyx_v_length);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_length);
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 147, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyInt_Type))) < 0) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 147, __pyx_L1_error)
+  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 185, __pyx_L1_error)
   __pyx_t_7 = ((PyArrayObject *)__pyx_t_6);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer, (PyObject*)__pyx_t_7, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_out_heights = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 146, __pyx_L1_error)
+      __PYX_ERR(0, 184, __pyx_L1_error)
     } else {__pyx_pybuffernd_out_heights.diminfo[0].strides = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_heights.diminfo[0].shape = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -1980,32 +2162,32 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
   __pyx_v_out_heights = ((PyArrayObject *)__pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "evolve.pyx":149
+  /* "evolve.pyx":187
  *                                                     np.zeros(length, dtype=int)
  * 
  *     out_heights = np.copy(in_heights, order="c")             # <<<<<<<<<<<<<<
  * 
  *     depositfunc(<int> j_latt,
  */
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_copy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_INCREF(((PyObject *)__pyx_v_in_heights));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_in_heights));
   PyTuple_SET_ITEM(__pyx_t_6, 0, ((PyObject *)__pyx_v_in_heights));
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_order, __pyx_n_u_c) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_order, __pyx_n_u_c) < 0) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 149, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 187, __pyx_L1_error)
   __pyx_t_7 = ((PyArrayObject *)__pyx_t_1);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -2022,13 +2204,13 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
       __pyx_t_9 = __pyx_t_10 = __pyx_t_11 = 0;
     }
     __pyx_pybuffernd_out_heights.diminfo[0].strides = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_heights.diminfo[0].shape = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.shape[0];
-    if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 149, __pyx_L1_error)
+    if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 187, __pyx_L1_error)
   }
   __pyx_t_7 = 0;
   __Pyx_DECREF_SET(__pyx_v_out_heights, ((PyArrayObject *)__pyx_t_1));
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":151
+  /* "evolve.pyx":189
  *     out_heights = np.copy(in_heights, order="c")
  * 
  *     depositfunc(<int> j_latt,             # <<<<<<<<<<<<<<
@@ -2037,7 +2219,7 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
  */
   __pyx_v_depositfunc(((int)__pyx_v_j_latt), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
 
-  /* "evolve.pyx":155
+  /* "evolve.pyx":193
  *                 <long int*> cnp.PyArray_DATA(pbc))
  * 
  *     return out_heights             # <<<<<<<<<<<<<<
@@ -2049,7 +2231,7 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
   __pyx_r = ((PyObject *)__pyx_v_out_heights);
   goto __pyx_L0;
 
-  /* "evolve.pyx":117
+  /* "evolve.pyx":155
  * 
  * #TODO: add deposit_func to docs
  * cdef deposit_wrapper(int j_latt,             # <<<<<<<<<<<<<<
@@ -2086,7 +2268,7 @@ static PyObject *__pyx_f_6evolve_deposit_wrapper(int __pyx_v_j_latt, PyArrayObje
   return __pyx_r;
 }
 
-/* "evolve.pyx":158
+/* "evolve.pyx":196
  * 
  * 
  * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
@@ -2130,17 +2312,17 @@ static PyObject *__pyx_pw_6evolve_1evolveBD(PyObject *__pyx_self, PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, 1); __PYX_ERR(0, 158, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, 1); __PYX_ERR(0, 196, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, 2); __PYX_ERR(0, 158, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, 2); __PYX_ERR(0, 196, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveBD") < 0)) __PYX_ERR(0, 158, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveBD") < 0)) __PYX_ERR(0, 196, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2150,19 +2332,19 @@ static PyObject *__pyx_pw_6evolve_1evolveBD(PyObject *__pyx_self, PyObject *__py
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_in_heights = ((PyArrayObject *)values[0]);
-    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 159, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 197, __pyx_L3_error)
     __pyx_v_pbc = ((PyArrayObject *)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 158, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolveBD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 196, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("evolve.evolveBD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 158, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 159, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 196, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 197, __pyx_L1_error)
   __pyx_r = __pyx_pf_6evolve_evolveBD(__pyx_self, __pyx_v_in_heights, __pyx_v_n, __pyx_v_pbc);
 
   /* function exit code */
@@ -2194,28 +2376,28 @@ static PyObject *__pyx_pf_6evolve_evolveBD(CYTHON_UNUSED PyObject *__pyx_self, P
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 158, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 196, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 158, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 196, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":163
+  /* "evolve.pyx":201
  * 
  *     """
  *     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveBD)             # <<<<<<<<<<<<<<
  *     return out_heights
  * 
  */
-  __pyx_t_1 = __pyx_f_6evolve_evolve_wrapper(((PyArrayObject *)__pyx_v_in_heights), __pyx_v_n, ((PyArrayObject *)__pyx_v_pbc), c_evolveBD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6evolve_evolve_wrapper(((PyArrayObject *)__pyx_v_in_heights), __pyx_v_n, ((PyArrayObject *)__pyx_v_pbc), c_evolveBD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_out_heights = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":164
+  /* "evolve.pyx":202
  *     """
  *     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveBD)
  *     return out_heights             # <<<<<<<<<<<<<<
@@ -2227,7 +2409,7 @@ static PyObject *__pyx_pf_6evolve_evolveBD(CYTHON_UNUSED PyObject *__pyx_self, P
   __pyx_r = __pyx_v_out_heights;
   goto __pyx_L0;
 
-  /* "evolve.pyx":158
+  /* "evolve.pyx":196
  * 
  * 
  * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
@@ -2258,7 +2440,7 @@ static PyObject *__pyx_pf_6evolve_evolveBD(CYTHON_UNUSED PyObject *__pyx_self, P
   return __pyx_r;
 }
 
-/* "evolve.pyx":167
+/* "evolve.pyx":205
  * 
  * 
  * def evolveRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
@@ -2302,17 +2484,17 @@ static PyObject *__pyx_pw_6evolve_3evolveRD(PyObject *__pyx_self, PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveRD", 1, 3, 3, 1); __PYX_ERR(0, 167, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveRD", 1, 3, 3, 1); __PYX_ERR(0, 205, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveRD", 1, 3, 3, 2); __PYX_ERR(0, 167, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveRD", 1, 3, 3, 2); __PYX_ERR(0, 205, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveRD") < 0)) __PYX_ERR(0, 167, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveRD") < 0)) __PYX_ERR(0, 205, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2322,19 +2504,19 @@ static PyObject *__pyx_pw_6evolve_3evolveRD(PyObject *__pyx_self, PyObject *__py
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_in_heights = ((PyArrayObject *)values[0]);
-    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 168, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 206, __pyx_L3_error)
     __pyx_v_pbc = ((PyArrayObject *)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolveRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 167, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolveRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 205, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("evolve.evolveRD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 167, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 168, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 205, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 206, __pyx_L1_error)
   __pyx_r = __pyx_pf_6evolve_2evolveRD(__pyx_self, __pyx_v_in_heights, __pyx_v_n, __pyx_v_pbc);
 
   /* function exit code */
@@ -2366,40 +2548,40 @@ static PyObject *__pyx_pf_6evolve_2evolveRD(CYTHON_UNUSED PyObject *__pyx_self, 
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 167, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 205, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 167, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 205, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":172
+  /* "evolve.pyx":210
  * 
  *     """
  *     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRD)             # <<<<<<<<<<<<<<
  *     return out_heights
  * 
  */
-  __pyx_t_1 = __pyx_f_6evolve_evolve_wrapper(((PyArrayObject *)__pyx_v_in_heights), __pyx_v_n, ((PyArrayObject *)__pyx_v_pbc), c_evolveRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6evolve_evolve_wrapper(((PyArrayObject *)__pyx_v_in_heights), __pyx_v_n, ((PyArrayObject *)__pyx_v_pbc), c_evolveRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_out_heights = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":173
+  /* "evolve.pyx":211
  *     """
  *     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRD)
  *     return out_heights             # <<<<<<<<<<<<<<
  * 
- * # TODO rewrite docs
+ * # TODO: rewrite using the wrapper
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_out_heights);
   __pyx_r = __pyx_v_out_heights;
   goto __pyx_L0;
 
-  /* "evolve.pyx":167
+  /* "evolve.pyx":205
  * 
  * 
  * def evolveRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
@@ -2430,8 +2612,8 @@ static PyObject *__pyx_pf_6evolve_2evolveRD(CYTHON_UNUSED PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-/* "evolve.pyx":176
- * 
+/* "evolve.pyx":215
+ * # TODO: rewrite using the wrapper
  * # TODO rewrite docs
  * def evolveRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
  *                  double ht, int n,
@@ -2477,23 +2659,23 @@ static PyObject *__pyx_pw_6evolve_5evolveRDdiff(PyObject *__pyx_self, PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ht)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, 1); __PYX_ERR(0, 176, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, 1); __PYX_ERR(0, 215, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, 2); __PYX_ERR(0, 176, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, 2); __PYX_ERR(0, 215, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, 3); __PYX_ERR(0, 176, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, 3); __PYX_ERR(0, 215, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveRDdiff") < 0)) __PYX_ERR(0, 176, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveRDdiff") < 0)) __PYX_ERR(0, 215, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -2504,20 +2686,20 @@ static PyObject *__pyx_pw_6evolve_5evolveRDdiff(PyObject *__pyx_self, PyObject *
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
     __pyx_v_in_heights = ((PyArrayObject *)values[0]);
-    __pyx_v_ht = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_ht == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
-    __pyx_v_n = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L3_error)
+    __pyx_v_ht = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_ht == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 216, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 216, __pyx_L3_error)
     __pyx_v_pbc = ((PyArrayObject *)values[3]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 176, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolveRDdiff", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 215, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("evolve.evolveRDdiff", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 1, "in_heights", 0))) __PYX_ERR(0, 176, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 1, "pbc", 0))) __PYX_ERR(0, 178, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 1, "in_heights", 0))) __PYX_ERR(0, 215, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 1, "pbc", 0))) __PYX_ERR(0, 217, __pyx_L1_error)
   __pyx_r = __pyx_pf_6evolve_4evolveRDdiff(__pyx_self, __pyx_v_in_heights, __pyx_v_ht, __pyx_v_n, __pyx_v_pbc);
 
   /* function exit code */
@@ -2561,59 +2743,59 @@ static PyObject *__pyx_pf_6evolve_4evolveRDdiff(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 176, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 215, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 176, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 215, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":196
+  /* "evolve.pyx":235
  * 
  *     """
  *     length = in_heights.size             # <<<<<<<<<<<<<<
  *     cdef cnp.ndarray[double, ndim=1, mode="c"] out_heights = \
  *                                                 np.zeros(length, dtype=float)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_in_heights), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_in_heights), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_length = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":198
+  /* "evolve.pyx":237
  *     length = in_heights.size
  *     cdef cnp.ndarray[double, ndim=1, mode="c"] out_heights = \
  *                                                 np.zeros(length, dtype=float)             # <<<<<<<<<<<<<<
  * 
  *     c_evolveRDdiff(
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_length);
   __Pyx_GIVEREF(__pyx_v_length);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_length);
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 198, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, ((PyObject *)(&PyFloat_Type))) < 0) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 198, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 237, __pyx_L1_error)
   __pyx_t_5 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_out_heights.rcbuffer->pybuffer, (PyObject*)__pyx_t_5, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_out_heights = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 197, __pyx_L1_error)
+      __PYX_ERR(0, 236, __pyx_L1_error)
     } else {__pyx_pybuffernd_out_heights.diminfo[0].strides = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_out_heights.diminfo[0].shape = __pyx_pybuffernd_out_heights.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -2621,16 +2803,16 @@ static PyObject *__pyx_pf_6evolve_4evolveRDdiff(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_v_out_heights = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "evolve.pyx":203
+  /* "evolve.pyx":242
  *                <double*> cnp.PyArray_DATA(in_heights),
  *                <double*> cnp.PyArray_DATA(out_heights),
  *                ht, length, n,             # <<<<<<<<<<<<<<
  *                <long int*> cnp.PyArray_DATA(pbc))
  * 
  */
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_length); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L1_error)
 
-  /* "evolve.pyx":200
+  /* "evolve.pyx":239
  *                                                 np.zeros(length, dtype=float)
  * 
  *     c_evolveRDdiff(             # <<<<<<<<<<<<<<
@@ -2639,7 +2821,7 @@ static PyObject *__pyx_pf_6evolve_4evolveRDdiff(CYTHON_UNUSED PyObject *__pyx_se
  */
   c_evolveRDdiff(((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_in_heights))), ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_out_heights))), __pyx_v_ht, __pyx_t_6, __pyx_v_n, ((long *)PyArray_DATA(((PyArrayObject *)__pyx_v_pbc))));
 
-  /* "evolve.pyx":206
+  /* "evolve.pyx":245
  *                <long int*> cnp.PyArray_DATA(pbc))
  * 
  *     return out_heights             # <<<<<<<<<<<<<<
@@ -2651,8 +2833,8 @@ static PyObject *__pyx_pf_6evolve_4evolveRDdiff(CYTHON_UNUSED PyObject *__pyx_se
   __pyx_r = ((PyObject *)__pyx_v_out_heights);
   goto __pyx_L0;
 
-  /* "evolve.pyx":176
- * 
+  /* "evolve.pyx":215
+ * # TODO: rewrite using the wrapper
  * # TODO rewrite docs
  * def evolveRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
  *                  double ht, int n,
@@ -2688,7 +2870,7 @@ static PyObject *__pyx_pf_6evolve_4evolveRDdiff(CYTHON_UNUSED PyObject *__pyx_se
   return __pyx_r;
 }
 
-/* "evolve.pyx":209
+/* "evolve.pyx":248
  * 
  * # TODO: rewrite docs shorter
  * def evolveRelaxRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
@@ -2732,17 +2914,17 @@ static PyObject *__pyx_pw_6evolve_7evolveRelaxRD(PyObject *__pyx_self, PyObject 
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveRelaxRD", 1, 3, 3, 1); __PYX_ERR(0, 209, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveRelaxRD", 1, 3, 3, 1); __PYX_ERR(0, 248, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolveRelaxRD", 1, 3, 3, 2); __PYX_ERR(0, 209, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolveRelaxRD", 1, 3, 3, 2); __PYX_ERR(0, 248, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveRelaxRD") < 0)) __PYX_ERR(0, 209, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveRelaxRD") < 0)) __PYX_ERR(0, 248, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2752,19 +2934,19 @@ static PyObject *__pyx_pw_6evolve_7evolveRelaxRD(PyObject *__pyx_self, PyObject 
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_in_heights = ((PyArrayObject *)values[0]);
-    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 249, __pyx_L3_error)
     __pyx_v_pbc = ((PyArrayObject *)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolveRelaxRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 209, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolveRelaxRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 248, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("evolve.evolveRelaxRD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 209, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 210, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 248, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 249, __pyx_L1_error)
   __pyx_r = __pyx_pf_6evolve_6evolveRelaxRD(__pyx_self, __pyx_v_in_heights, __pyx_v_n, __pyx_v_pbc);
 
   /* function exit code */
@@ -2796,40 +2978,40 @@ static PyObject *__pyx_pf_6evolve_6evolveRelaxRD(CYTHON_UNUSED PyObject *__pyx_s
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 209, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 248, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 209, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 248, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":214
+  /* "evolve.pyx":253
  * 
  *     """
  *     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRelaxRD)             # <<<<<<<<<<<<<<
  *     return out_heights
  * 
  */
-  __pyx_t_1 = __pyx_f_6evolve_evolve_wrapper(((PyArrayObject *)__pyx_v_in_heights), __pyx_v_n, ((PyArrayObject *)__pyx_v_pbc), c_evolveRelaxRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6evolve_evolve_wrapper(((PyArrayObject *)__pyx_v_in_heights), __pyx_v_n, ((PyArrayObject *)__pyx_v_pbc), c_evolveRelaxRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_out_heights = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":215
+  /* "evolve.pyx":254
  *     """
  *     out_heights = evolve_wrapper(in_heights, n, pbc, c_evolveRelaxRD)
  *     return out_heights             # <<<<<<<<<<<<<<
  * 
- * def depositBD(int j_latt,
+ * # TODO: docs!
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_out_heights);
   __pyx_r = __pyx_v_out_heights;
   goto __pyx_L0;
 
-  /* "evolve.pyx":209
+  /* "evolve.pyx":248
  * 
  * # TODO: rewrite docs shorter
  * def evolveRelaxRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
@@ -2860,7 +3042,189 @@ static PyObject *__pyx_pf_6evolve_6evolveRelaxRD(CYTHON_UNUSED PyObject *__pyx_s
   return __pyx_r;
 }
 
-/* "evolve.pyx":217
+/* "evolve.pyx":257
+ * 
+ * # TODO: docs!
+ * def evolveRelaxRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
+ *                       double ht, int n,
+ *                       cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_6evolve_9evolveRelaxRDdiff(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_6evolve_9evolveRelaxRDdiff = {"evolveRelaxRDdiff", (PyCFunction)__pyx_pw_6evolve_9evolveRelaxRDdiff, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_6evolve_9evolveRelaxRDdiff(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyArrayObject *__pyx_v_in_heights = 0;
+  double __pyx_v_ht;
+  int __pyx_v_n;
+  PyArrayObject *__pyx_v_pbc = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("evolveRelaxRDdiff (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_in_heights,&__pyx_n_s_ht,&__pyx_n_s_n,&__pyx_n_s_pbc,0};
+    PyObject* values[4] = {0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_in_heights)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ht)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolveRelaxRDdiff", 1, 4, 4, 1); __PYX_ERR(0, 257, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolveRelaxRDdiff", 1, 4, 4, 2); __PYX_ERR(0, 257, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolveRelaxRDdiff", 1, 4, 4, 3); __PYX_ERR(0, 257, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolveRelaxRDdiff") < 0)) __PYX_ERR(0, 257, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+    }
+    __pyx_v_in_heights = ((PyArrayObject *)values[0]);
+    __pyx_v_ht = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_ht == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 258, __pyx_L3_error)
+    __pyx_v_n = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_n == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 258, __pyx_L3_error)
+    __pyx_v_pbc = ((PyArrayObject *)values[3]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("evolveRelaxRDdiff", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 257, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("evolve.evolveRelaxRDdiff", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 1, "in_heights", 0))) __PYX_ERR(0, 257, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 1, "pbc", 0))) __PYX_ERR(0, 259, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6evolve_8evolveRelaxRDdiff(__pyx_self, __pyx_v_in_heights, __pyx_v_ht, __pyx_v_n, __pyx_v_pbc);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_6evolve_8evolveRelaxRDdiff(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_in_heights, double __pyx_v_ht, int __pyx_v_n, PyArrayObject *__pyx_v_pbc) {
+  PyObject *__pyx_v_out_heights = NULL;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_in_heights;
+  __Pyx_Buffer __pyx_pybuffer_in_heights;
+  __Pyx_LocalBuf_ND __pyx_pybuffernd_pbc;
+  __Pyx_Buffer __pyx_pybuffer_pbc;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("evolveRelaxRDdiff", 0);
+  __pyx_pybuffer_in_heights.pybuffer.buf = NULL;
+  __pyx_pybuffer_in_heights.refcount = 0;
+  __pyx_pybuffernd_in_heights.data = NULL;
+  __pyx_pybuffernd_in_heights.rcbuffer = &__pyx_pybuffer_in_heights;
+  __pyx_pybuffer_pbc.pybuffer.buf = NULL;
+  __pyx_pybuffer_pbc.refcount = 0;
+  __pyx_pybuffernd_pbc.data = NULL;
+  __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 257, __pyx_L1_error)
+  }
+  __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
+  {
+    __Pyx_BufFmt_StackElem __pyx_stack[1];
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 257, __pyx_L1_error)
+  }
+  __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
+
+  /* "evolve.pyx":261
+ *                       cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+ * 
+ *     out_heights = evolve_wrapper_double(in_heights, ht, n, pbc,             # <<<<<<<<<<<<<<
+ *                                                     c_evolveRelaxRDdiff)
+ *     return out_heights
+ */
+  __pyx_t_1 = __pyx_f_6evolve_evolve_wrapper_double(((PyArrayObject *)__pyx_v_in_heights), __pyx_v_ht, __pyx_v_n, ((PyArrayObject *)__pyx_v_pbc), c_evolveRelaxRDdiff); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_out_heights = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "evolve.pyx":263
+ *     out_heights = evolve_wrapper_double(in_heights, ht, n, pbc,
+ *                                                     c_evolveRelaxRDdiff)
+ *     return out_heights             # <<<<<<<<<<<<<<
+ * 
+ * def depositBD(int j_latt,
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_out_heights);
+  __pyx_r = __pyx_v_out_heights;
+  goto __pyx_L0;
+
+  /* "evolve.pyx":257
+ * 
+ * # TODO: docs!
+ * def evolveRelaxRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
+ *                       double ht, int n,
+ *                       cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer);
+    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer);
+  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
+  __Pyx_AddTraceback("evolve.evolveRelaxRDdiff", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  goto __pyx_L2;
+  __pyx_L0:;
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer);
+  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer);
+  __pyx_L2:;
+  __Pyx_XDECREF(__pyx_v_out_heights);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "evolve.pyx":265
  *     return out_heights
  * 
  * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
@@ -2869,10 +3233,10 @@ static PyObject *__pyx_pf_6evolve_6evolveRelaxRD(CYTHON_UNUSED PyObject *__pyx_s
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6evolve_9depositBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6evolve_8depositBD[] = "Deposit a particle using the ballistic deposition model.\n\n    ";
-static PyMethodDef __pyx_mdef_6evolve_9depositBD = {"depositBD", (PyCFunction)__pyx_pw_6evolve_9depositBD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_8depositBD};
-static PyObject *__pyx_pw_6evolve_9depositBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6evolve_11depositBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6evolve_10depositBD[] = "Deposit a particle using the ballistic deposition model.\n\n    ";
+static PyMethodDef __pyx_mdef_6evolve_11depositBD = {"depositBD", (PyCFunction)__pyx_pw_6evolve_11depositBD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_10depositBD};
+static PyObject *__pyx_pw_6evolve_11depositBD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_j_latt;
   PyArrayObject *__pyx_v_in_heights = 0;
   PyArrayObject *__pyx_v_pbc = 0;
@@ -2904,17 +3268,17 @@ static PyObject *__pyx_pw_6evolve_9depositBD(PyObject *__pyx_self, PyObject *__p
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_in_heights)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, 1); __PYX_ERR(0, 217, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, 1); __PYX_ERR(0, 265, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, 2); __PYX_ERR(0, 217, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, 2); __PYX_ERR(0, 265, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "depositBD") < 0)) __PYX_ERR(0, 217, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "depositBD") < 0)) __PYX_ERR(0, 265, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2923,21 +3287,21 @@ static PyObject *__pyx_pw_6evolve_9depositBD(PyObject *__pyx_self, PyObject *__p
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_j_latt = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_j_latt == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 217, __pyx_L3_error)
+    __pyx_v_j_latt = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_j_latt == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 265, __pyx_L3_error)
     __pyx_v_in_heights = ((PyArrayObject *)values[1]);
     __pyx_v_pbc = ((PyArrayObject *)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 217, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("depositBD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 265, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("evolve.depositBD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 218, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 219, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6evolve_8depositBD(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 266, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6evolve_10depositBD(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2948,7 +3312,7 @@ static PyObject *__pyx_pw_6evolve_9depositBD(PyObject *__pyx_self, PyObject *__p
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6evolve_8depositBD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
+static PyObject *__pyx_pf_6evolve_10depositBD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
   PyObject *__pyx_v_out_heights = NULL;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_in_heights;
   __Pyx_Buffer __pyx_pybuffer_in_heights;
@@ -2968,28 +3332,28 @@ static PyObject *__pyx_pf_6evolve_8depositBD(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 217, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 265, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 217, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 265, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":223
+  /* "evolve.pyx":271
  * 
  *     """
  *     out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositBD)             # <<<<<<<<<<<<<<
  *     return out_heights
  * 
  */
-  __pyx_t_1 = __pyx_f_6evolve_deposit_wrapper(__pyx_v_j_latt, ((PyArrayObject *)__pyx_v_in_heights), ((PyArrayObject *)__pyx_v_pbc), c_depositBD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6evolve_deposit_wrapper(__pyx_v_j_latt, ((PyArrayObject *)__pyx_v_in_heights), ((PyArrayObject *)__pyx_v_pbc), c_depositBD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 271, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_out_heights = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":224
+  /* "evolve.pyx":272
  *     """
  *     out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositBD)
  *     return out_heights             # <<<<<<<<<<<<<<
@@ -3001,7 +3365,7 @@ static PyObject *__pyx_pf_6evolve_8depositBD(CYTHON_UNUSED PyObject *__pyx_self,
   __pyx_r = __pyx_v_out_heights;
   goto __pyx_L0;
 
-  /* "evolve.pyx":217
+  /* "evolve.pyx":265
  *     return out_heights
  * 
  * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
@@ -3032,7 +3396,7 @@ static PyObject *__pyx_pf_6evolve_8depositBD(CYTHON_UNUSED PyObject *__pyx_self,
   return __pyx_r;
 }
 
-/* "evolve.pyx":227
+/* "evolve.pyx":275
  * 
  * 
  * def depositRD(int j_latt,             # <<<<<<<<<<<<<<
@@ -3041,10 +3405,10 @@ static PyObject *__pyx_pf_6evolve_8depositBD(CYTHON_UNUSED PyObject *__pyx_self,
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6evolve_11depositRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6evolve_10depositRD[] = "Deposit a particle using the random deposition model.\n \n    ";
-static PyMethodDef __pyx_mdef_6evolve_11depositRD = {"depositRD", (PyCFunction)__pyx_pw_6evolve_11depositRD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_10depositRD};
-static PyObject *__pyx_pw_6evolve_11depositRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6evolve_13depositRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6evolve_12depositRD[] = "Deposit a particle using the random deposition model.\n \n    ";
+static PyMethodDef __pyx_mdef_6evolve_13depositRD = {"depositRD", (PyCFunction)__pyx_pw_6evolve_13depositRD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_12depositRD};
+static PyObject *__pyx_pw_6evolve_13depositRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_j_latt;
   PyArrayObject *__pyx_v_in_heights = 0;
   PyArrayObject *__pyx_v_pbc = 0;
@@ -3076,17 +3440,17 @@ static PyObject *__pyx_pw_6evolve_11depositRD(PyObject *__pyx_self, PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_in_heights)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("depositRD", 1, 3, 3, 1); __PYX_ERR(0, 227, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositRD", 1, 3, 3, 1); __PYX_ERR(0, 275, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("depositRD", 1, 3, 3, 2); __PYX_ERR(0, 227, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositRD", 1, 3, 3, 2); __PYX_ERR(0, 275, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "depositRD") < 0)) __PYX_ERR(0, 227, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "depositRD") < 0)) __PYX_ERR(0, 275, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -3095,21 +3459,21 @@ static PyObject *__pyx_pw_6evolve_11depositRD(PyObject *__pyx_self, PyObject *__
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_j_latt = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_j_latt == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 227, __pyx_L3_error)
+    __pyx_v_j_latt = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_j_latt == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L3_error)
     __pyx_v_in_heights = ((PyArrayObject *)values[1]);
     __pyx_v_pbc = ((PyArrayObject *)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("depositRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 227, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("depositRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 275, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("evolve.depositRD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 228, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 229, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6evolve_10depositRD(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 276, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 277, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6evolve_12depositRD(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3120,7 +3484,7 @@ static PyObject *__pyx_pw_6evolve_11depositRD(PyObject *__pyx_self, PyObject *__
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6evolve_10depositRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
+static PyObject *__pyx_pf_6evolve_12depositRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
   PyObject *__pyx_v_out_heights = NULL;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_in_heights;
   __Pyx_Buffer __pyx_pybuffer_in_heights;
@@ -3140,28 +3504,28 @@ static PyObject *__pyx_pf_6evolve_10depositRD(CYTHON_UNUSED PyObject *__pyx_self
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 227, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 275, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 227, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 275, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":233
+  /* "evolve.pyx":281
  * 
  *     """
  *     out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositRD)             # <<<<<<<<<<<<<<
  *     return out_heights
  * 
  */
-  __pyx_t_1 = __pyx_f_6evolve_deposit_wrapper(__pyx_v_j_latt, ((PyArrayObject *)__pyx_v_in_heights), ((PyArrayObject *)__pyx_v_pbc), c_depositRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6evolve_deposit_wrapper(__pyx_v_j_latt, ((PyArrayObject *)__pyx_v_in_heights), ((PyArrayObject *)__pyx_v_pbc), c_depositRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 281, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_out_heights = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":234
+  /* "evolve.pyx":282
  *     """
  *     out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositRD)
  *     return out_heights             # <<<<<<<<<<<<<<
@@ -3173,7 +3537,7 @@ static PyObject *__pyx_pf_6evolve_10depositRD(CYTHON_UNUSED PyObject *__pyx_self
   __pyx_r = __pyx_v_out_heights;
   goto __pyx_L0;
 
-  /* "evolve.pyx":227
+  /* "evolve.pyx":275
  * 
  * 
  * def depositRD(int j_latt,             # <<<<<<<<<<<<<<
@@ -3204,7 +3568,7 @@ static PyObject *__pyx_pf_6evolve_10depositRD(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
-/* "evolve.pyx":236
+/* "evolve.pyx":284
  *     return out_heights
  * 
  * def depositRelaxRD(int j_latt,             # <<<<<<<<<<<<<<
@@ -3213,10 +3577,10 @@ static PyObject *__pyx_pf_6evolve_10depositRD(CYTHON_UNUSED PyObject *__pyx_self
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6evolve_13depositRelaxRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6evolve_12depositRelaxRD[] = "Deposit a particle using the random deposition model with relaxation.\n \n    ";
-static PyMethodDef __pyx_mdef_6evolve_13depositRelaxRD = {"depositRelaxRD", (PyCFunction)__pyx_pw_6evolve_13depositRelaxRD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_12depositRelaxRD};
-static PyObject *__pyx_pw_6evolve_13depositRelaxRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6evolve_15depositRelaxRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_6evolve_14depositRelaxRD[] = "Deposit a particle using the random deposition model with relaxation.\n \n    ";
+static PyMethodDef __pyx_mdef_6evolve_15depositRelaxRD = {"depositRelaxRD", (PyCFunction)__pyx_pw_6evolve_15depositRelaxRD, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6evolve_14depositRelaxRD};
+static PyObject *__pyx_pw_6evolve_15depositRelaxRD(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_j_latt;
   PyArrayObject *__pyx_v_in_heights = 0;
   PyArrayObject *__pyx_v_pbc = 0;
@@ -3248,17 +3612,17 @@ static PyObject *__pyx_pw_6evolve_13depositRelaxRD(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_in_heights)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("depositRelaxRD", 1, 3, 3, 1); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositRelaxRD", 1, 3, 3, 1); __PYX_ERR(0, 284, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pbc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("depositRelaxRD", 1, 3, 3, 2); __PYX_ERR(0, 236, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("depositRelaxRD", 1, 3, 3, 2); __PYX_ERR(0, 284, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "depositRelaxRD") < 0)) __PYX_ERR(0, 236, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "depositRelaxRD") < 0)) __PYX_ERR(0, 284, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -3267,21 +3631,21 @@ static PyObject *__pyx_pw_6evolve_13depositRelaxRD(PyObject *__pyx_self, PyObjec
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
-    __pyx_v_j_latt = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_j_latt == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 236, __pyx_L3_error)
+    __pyx_v_j_latt = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_j_latt == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 284, __pyx_L3_error)
     __pyx_v_in_heights = ((PyArrayObject *)values[1]);
     __pyx_v_pbc = ((PyArrayObject *)values[2]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("depositRelaxRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 236, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("depositRelaxRD", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 284, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("evolve.depositRelaxRD", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 237, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 238, __pyx_L1_error)
-  __pyx_r = __pyx_pf_6evolve_12depositRelaxRD(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_in_heights), __pyx_ptype_5numpy_ndarray, 0, "in_heights", 0))) __PYX_ERR(0, 285, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pbc), __pyx_ptype_5numpy_ndarray, 0, "pbc", 0))) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_r = __pyx_pf_6evolve_14depositRelaxRD(__pyx_self, __pyx_v_j_latt, __pyx_v_in_heights, __pyx_v_pbc);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3292,7 +3656,7 @@ static PyObject *__pyx_pw_6evolve_13depositRelaxRD(PyObject *__pyx_self, PyObjec
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6evolve_12depositRelaxRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
+static PyObject *__pyx_pf_6evolve_14depositRelaxRD(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_j_latt, PyArrayObject *__pyx_v_in_heights, PyArrayObject *__pyx_v_pbc) {
   PyObject *__pyx_v_out_heights = NULL;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_in_heights;
   __Pyx_Buffer __pyx_pybuffer_in_heights;
@@ -3312,28 +3676,28 @@ static PyObject *__pyx_pf_6evolve_12depositRelaxRD(CYTHON_UNUSED PyObject *__pyx
   __pyx_pybuffernd_pbc.rcbuffer = &__pyx_pybuffer_pbc;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 236, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_in_heights.rcbuffer->pybuffer, (PyObject*)__pyx_v_in_heights, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 284, __pyx_L1_error)
   }
   __pyx_pybuffernd_in_heights.diminfo[0].strides = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_in_heights.diminfo[0].shape = __pyx_pybuffernd_in_heights.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 236, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_pbc.rcbuffer->pybuffer, (PyObject*)__pyx_v_pbc, &__Pyx_TypeInfo_long, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 284, __pyx_L1_error)
   }
   __pyx_pybuffernd_pbc.diminfo[0].strides = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_pbc.diminfo[0].shape = __pyx_pybuffernd_pbc.rcbuffer->pybuffer.shape[0];
 
-  /* "evolve.pyx":242
+  /* "evolve.pyx":290
  * 
  *     """
  *     out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositRelaxRD)             # <<<<<<<<<<<<<<
  *     return out_heights
  * 
  */
-  __pyx_t_1 = __pyx_f_6evolve_deposit_wrapper(__pyx_v_j_latt, ((PyArrayObject *)__pyx_v_in_heights), ((PyArrayObject *)__pyx_v_pbc), c_depositRelaxRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6evolve_deposit_wrapper(__pyx_v_j_latt, ((PyArrayObject *)__pyx_v_in_heights), ((PyArrayObject *)__pyx_v_pbc), c_depositRelaxRD); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_out_heights = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "evolve.pyx":243
+  /* "evolve.pyx":291
  *     """
  *     out_heights = deposit_wrapper(j_latt, in_heights, pbc, c_depositRelaxRD)
  *     return out_heights             # <<<<<<<<<<<<<<
@@ -3345,7 +3709,7 @@ static PyObject *__pyx_pf_6evolve_12depositRelaxRD(CYTHON_UNUSED PyObject *__pyx
   __pyx_r = __pyx_v_out_heights;
   goto __pyx_L0;
 
-  /* "evolve.pyx":236
+  /* "evolve.pyx":284
  *     return out_heights
  * 
  * def depositRelaxRD(int j_latt,             # <<<<<<<<<<<<<<
@@ -3376,7 +3740,7 @@ static PyObject *__pyx_pf_6evolve_12depositRelaxRD(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "evolve.pyx":245
+/* "evolve.pyx":293
  *     return out_heights
  * 
  * def seed(int iseed):             # <<<<<<<<<<<<<<
@@ -3385,16 +3749,16 @@ static PyObject *__pyx_pf_6evolve_12depositRelaxRD(CYTHON_UNUSED PyObject *__pyx
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6evolve_15seed(PyObject *__pyx_self, PyObject *__pyx_arg_iseed); /*proto*/
-static char __pyx_doc_6evolve_14seed[] = "Initialize the random number generator in the c extension.\n    \n    Parameters\n    ----------\n        iseed : int\n            Seed for the random number generator.\n\n    ";
-static PyMethodDef __pyx_mdef_6evolve_15seed = {"seed", (PyCFunction)__pyx_pw_6evolve_15seed, METH_O, __pyx_doc_6evolve_14seed};
-static PyObject *__pyx_pw_6evolve_15seed(PyObject *__pyx_self, PyObject *__pyx_arg_iseed) {
+static PyObject *__pyx_pw_6evolve_17seed(PyObject *__pyx_self, PyObject *__pyx_arg_iseed); /*proto*/
+static char __pyx_doc_6evolve_16seed[] = "Initialize the random number generator in the c extension.\n    \n    Parameters\n    ----------\n        iseed : int\n            Seed for the random number generator.\n\n    ";
+static PyMethodDef __pyx_mdef_6evolve_17seed = {"seed", (PyCFunction)__pyx_pw_6evolve_17seed, METH_O, __pyx_doc_6evolve_16seed};
+static PyObject *__pyx_pw_6evolve_17seed(PyObject *__pyx_self, PyObject *__pyx_arg_iseed) {
   int __pyx_v_iseed;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("seed (wrapper)", 0);
   assert(__pyx_arg_iseed); {
-    __pyx_v_iseed = __Pyx_PyInt_As_int(__pyx_arg_iseed); if (unlikely((__pyx_v_iseed == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 245, __pyx_L3_error)
+    __pyx_v_iseed = __Pyx_PyInt_As_int(__pyx_arg_iseed); if (unlikely((__pyx_v_iseed == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 293, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3402,19 +3766,19 @@ static PyObject *__pyx_pw_6evolve_15seed(PyObject *__pyx_self, PyObject *__pyx_a
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6evolve_14seed(__pyx_self, ((int)__pyx_v_iseed));
+  __pyx_r = __pyx_pf_6evolve_16seed(__pyx_self, ((int)__pyx_v_iseed));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6evolve_14seed(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_iseed) {
+static PyObject *__pyx_pf_6evolve_16seed(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_iseed) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("seed", 0);
 
-  /* "evolve.pyx":254
+  /* "evolve.pyx":302
  * 
  *     """
  *     dranini_(&iseed)             # <<<<<<<<<<<<<<
@@ -3422,7 +3786,7 @@ static PyObject *__pyx_pf_6evolve_14seed(CYTHON_UNUSED PyObject *__pyx_self, int
  */
   dranini_((&__pyx_v_iseed));
 
-  /* "evolve.pyx":255
+  /* "evolve.pyx":303
  *     """
  *     dranini_(&iseed)
  *     return             # <<<<<<<<<<<<<<
@@ -3431,7 +3795,7 @@ static PyObject *__pyx_pf_6evolve_14seed(CYTHON_UNUSED PyObject *__pyx_self, int
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "evolve.pyx":245
+  /* "evolve.pyx":293
  *     return out_heights
  * 
  * def seed(int iseed):             # <<<<<<<<<<<<<<
@@ -6084,6 +6448,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_evolveRD, __pyx_k_evolveRD, sizeof(__pyx_k_evolveRD), 0, 0, 1, 1},
   {&__pyx_n_s_evolveRDdiff, __pyx_k_evolveRDdiff, sizeof(__pyx_k_evolveRDdiff), 0, 0, 1, 1},
   {&__pyx_n_s_evolveRelaxRD, __pyx_k_evolveRelaxRD, sizeof(__pyx_k_evolveRelaxRD), 0, 0, 1, 1},
+  {&__pyx_n_s_evolveRelaxRDdiff, __pyx_k_evolveRelaxRDdiff, sizeof(__pyx_k_evolveRelaxRDdiff), 0, 0, 1, 1},
   {&__pyx_kp_s_evolve_pyx, __pyx_k_evolve_pyx, sizeof(__pyx_k_evolve_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_ht, __pyx_k_ht, sizeof(__pyx_k_ht), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
@@ -6112,7 +6477,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) __PYX_ERR(0, 182, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 235, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 248, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 823, __pyx_L1_error)
@@ -6126,14 +6491,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "evolve.pyx":144
+  /* "evolve.pyx":182
  * 
  *     if j_latt >= length or j_latt < 0:
  *         raise IndexError("j_latt is out of range")             # <<<<<<<<<<<<<<
  * 
  *     cdef cnp.ndarray[long int, ndim=1, mode="c"] out_heights = \
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_j_latt_is_out_of_range); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_j_latt_is_out_of_range); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -6234,101 +6599,113 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "evolve.pyx":158
+  /* "evolve.pyx":196
  * 
  * 
  * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
  *               int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  *     """Evolve the heights according to the ballistic deposition model.
  */
-  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_in_heights, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(4, __pyx_n_s_in_heights, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveBD, 158, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveBD, 196, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 196, __pyx_L1_error)
 
-  /* "evolve.pyx":167
+  /* "evolve.pyx":205
  * 
  * 
  * def evolveRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
  *               int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  *     """Evolve the heights according to the random deposition model.
  */
-  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_in_heights, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_in_heights, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveRD, 167, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveRD, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 205, __pyx_L1_error)
 
-  /* "evolve.pyx":176
- * 
+  /* "evolve.pyx":215
+ * # TODO: rewrite using the wrapper
  * # TODO rewrite docs
  * def evolveRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
  *                  double ht, int n,
  *                  cnp.ndarray[long int, ndim=1, mode="c"] pbc):
  */
-  __pyx_tuple__15 = PyTuple_Pack(6, __pyx_n_s_in_heights, __pyx_n_s_ht, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_length, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(6, __pyx_n_s_in_heights, __pyx_n_s_ht, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_length, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveRDdiff, 176, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(4, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveRDdiff, 215, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 215, __pyx_L1_error)
 
-  /* "evolve.pyx":209
+  /* "evolve.pyx":248
  * 
  * # TODO: rewrite docs shorter
  * def evolveRelaxRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
  *                   int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  *     """Evolve the heights according to random deposition model with relaxation.
  */
-  __pyx_tuple__17 = PyTuple_Pack(4, __pyx_n_s_in_heights, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(4, __pyx_n_s_in_heights, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveRelaxRD, 209, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveRelaxRD, 248, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 248, __pyx_L1_error)
 
-  /* "evolve.pyx":217
+  /* "evolve.pyx":257
+ * 
+ * # TODO: docs!
+ * def evolveRelaxRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
+ *                       double ht, int n,
+ *                       cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+ */
+  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_in_heights, __pyx_n_s_ht, __pyx_n_s_n, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_evolveRelaxRDdiff, 257, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 257, __pyx_L1_error)
+
+  /* "evolve.pyx":265
  *     return out_heights
  * 
  * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
  *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
  *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_tuple__19 = PyTuple_Pack(4, __pyx_n_s_j_latt, __pyx_n_s_in_heights, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 217, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_depositBD, 217, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(4, __pyx_n_s_j_latt, __pyx_n_s_in_heights, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 265, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_depositBD, 265, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 265, __pyx_L1_error)
 
-  /* "evolve.pyx":227
+  /* "evolve.pyx":275
  * 
  * 
  * def depositRD(int j_latt,             # <<<<<<<<<<<<<<
  *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
  *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_tuple__21 = PyTuple_Pack(4, __pyx_n_s_j_latt, __pyx_n_s_in_heights, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 227, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_depositRD, 227, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(4, __pyx_n_s_j_latt, __pyx_n_s_in_heights, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 275, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_depositRD, 275, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 275, __pyx_L1_error)
 
-  /* "evolve.pyx":236
+  /* "evolve.pyx":284
  *     return out_heights
  * 
  * def depositRelaxRD(int j_latt,             # <<<<<<<<<<<<<<
  *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
  *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_tuple__23 = PyTuple_Pack(4, __pyx_n_s_j_latt, __pyx_n_s_in_heights, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 236, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_depositRelaxRD, 236, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(4, __pyx_n_s_j_latt, __pyx_n_s_in_heights, __pyx_n_s_pbc, __pyx_n_s_out_heights); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 284, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_depositRelaxRD, 284, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 284, __pyx_L1_error)
 
-  /* "evolve.pyx":245
+  /* "evolve.pyx":293
  *     return out_heights
  * 
  * def seed(int iseed):             # <<<<<<<<<<<<<<
  *     """Initialize the random number generator in the c extension.
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(2, __pyx_n_s_iseed, __pyx_n_s_iseed); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 245, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_seed, 245, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_iseed, __pyx_n_s_iseed); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 293, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_evolve_pyx, __pyx_n_s_seed, 293, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 293, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6512,100 +6889,112 @@ static int __pyx_pymod_exec_evolve(PyObject *__pyx_pyinit_module)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 26, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":158
+  /* "evolve.pyx":196
  * 
  * 
  * def evolveBD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
  *               int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  *     """Evolve the heights according to the ballistic deposition model.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_1evolveBD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_1evolveBD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveBD, __pyx_t_1) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveBD, __pyx_t_1) < 0) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":167
+  /* "evolve.pyx":205
  * 
  * 
  * def evolveRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
  *               int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  *     """Evolve the heights according to the random deposition model.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_3evolveRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_3evolveRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveRD, __pyx_t_1) < 0) __PYX_ERR(0, 167, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveRD, __pyx_t_1) < 0) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":176
- * 
+  /* "evolve.pyx":215
+ * # TODO: rewrite using the wrapper
  * # TODO rewrite docs
  * def evolveRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
  *                  double ht, int n,
  *                  cnp.ndarray[long int, ndim=1, mode="c"] pbc):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_5evolveRDdiff, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_5evolveRDdiff, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveRDdiff, __pyx_t_1) < 0) __PYX_ERR(0, 176, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveRDdiff, __pyx_t_1) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":209
+  /* "evolve.pyx":248
  * 
  * # TODO: rewrite docs shorter
  * def evolveRelaxRD(cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,             # <<<<<<<<<<<<<<
  *                   int n, cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  *     """Evolve the heights according to random deposition model with relaxation.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_7evolveRelaxRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_7evolveRelaxRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveRelaxRD, __pyx_t_1) < 0) __PYX_ERR(0, 209, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveRelaxRD, __pyx_t_1) < 0) __PYX_ERR(0, 248, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":217
+  /* "evolve.pyx":257
+ * 
+ * # TODO: docs!
+ * def evolveRelaxRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,             # <<<<<<<<<<<<<<
+ *                       double ht, int n,
+ *                       cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_9evolveRelaxRDdiff, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolveRelaxRDdiff, __pyx_t_1) < 0) __PYX_ERR(0, 257, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "evolve.pyx":265
  *     return out_heights
  * 
  * def depositBD(int j_latt,             # <<<<<<<<<<<<<<
  *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
  *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_9depositBD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_11depositBD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_depositBD, __pyx_t_1) < 0) __PYX_ERR(0, 217, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_depositBD, __pyx_t_1) < 0) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":227
+  /* "evolve.pyx":275
  * 
  * 
  * def depositRD(int j_latt,             # <<<<<<<<<<<<<<
  *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
  *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_11depositRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_13depositRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_depositRD, __pyx_t_1) < 0) __PYX_ERR(0, 227, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_depositRD, __pyx_t_1) < 0) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":236
+  /* "evolve.pyx":284
  *     return out_heights
  * 
  * def depositRelaxRD(int j_latt,             # <<<<<<<<<<<<<<
  *               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,
  *               cnp.ndarray[long int, ndim=1, mode="c"] pbc not None):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_13depositRelaxRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 236, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_15depositRelaxRD, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_depositRelaxRD, __pyx_t_1) < 0) __PYX_ERR(0, 236, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_depositRelaxRD, __pyx_t_1) < 0) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "evolve.pyx":245
+  /* "evolve.pyx":293
  *     return out_heights
  * 
  * def seed(int iseed):             # <<<<<<<<<<<<<<
  *     """Initialize the random number generator in the c extension.
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_15seed, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_6evolve_17seed, NULL, __pyx_n_s_evolve); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 293, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_seed, __pyx_t_1) < 0) __PYX_ERR(0, 245, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_seed, __pyx_t_1) < 0) __PYX_ERR(0, 293, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "evolve.pyx":1
