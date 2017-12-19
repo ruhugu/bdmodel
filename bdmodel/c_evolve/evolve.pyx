@@ -43,6 +43,9 @@ cdef extern from "c_evolve.h":
                         int length, long int nsteps, long int* pbc)
     void c_evolveRelaxRDdiff(double* in_heights, double* out_heights, double ht,
                              int length, long int nMCsteps, long int* pbc)
+    void c_evolveWalledEW(double* in_heights, double* out_heights, double ht,
+                          double a, double p, int length, long int nsteps, 
+                          long int* pbc)
     void c_depositBD(int j_latt, long int *heights, long int* pbc)
     void c_depositRD(int j_latt, long int *heights, long int* pbc)
     void c_depositRelaxRD(int j_latt, long int *heights, long int* pbc)
@@ -261,6 +264,22 @@ def evolveRelaxRDdiff(cnp.ndarray[double, ndim=1, mode="c"] in_heights,
     out_heights = evolve_wrapper_double(in_heights, ht, n, pbc, 
                                                     c_evolveRelaxRDdiff)
     return out_heights
+
+#TODO: docs
+def evolveWalledEW(cnp.ndarray[double, ndim=1, mode="c"] in_heights,
+                   double ht, int n, double a, double p,
+                   cnp.ndarray[long int, ndim=1, mode="c"] pbc):
+    length = in_heights.size
+    cdef cnp.ndarray[double, ndim=1, mode="c"] out_heights = \
+                                                np.zeros(length, dtype=float)
+    c_evolveWalledEW(
+               <double*> cnp.PyArray_DATA(in_heights),    
+               <double*> cnp.PyArray_DATA(out_heights), 
+               ht, a, p, length, n,
+               <long int*> cnp.PyArray_DATA(pbc))
+
+    return out_heights
+
 
 def depositBD(int j_latt,
               cnp.ndarray[long int, ndim=1, mode="c"] in_heights not None,

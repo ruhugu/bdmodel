@@ -30,9 +30,10 @@ class Lattice(object):
                     "_widths_ravg"
                      ]
     
-    def __init__(self, length, seed=None, heighttype=int):
+    def __init__(self, length, ini_height=0, seed=None, heighttype=int):
         self._length = length 
         self._heighttype = heighttype
+        self.ini_height = ini_height
 
         # Initialize the random number generator
         if seed == None:
@@ -62,7 +63,8 @@ class Lattice(object):
 
     def resetheights(self):
         """Reset surface heights."""
-        self._heights = np.zeros(self._length, dtype=self._heighttype)
+        self._heights = np.full(self._length, self.ini_height, 
+                                                    dtype=self._heighttype)
         return
 
     def evolve(self, nprtcls):
@@ -582,6 +584,39 @@ class RelaxRDdiffLattice(Lattice):
         
         self._heights = c_evolve.evolveRelaxRDdiff(self._heights, self._ht, 
                                                        nsteps, self._pbc)
+        return 
+
+
+# TODO docs:
+# TODO: include scaling exponents depending on critical dimension
+class WalledEWLattice(Lattice):
+
+    def __init__(self, length, a, p, ini_height=1, ht=0.01, seed=None):
+        # ht viene dado en unidades de MCS
+        Lattice.__init__(self, length, ini_height=ini_height, seed=seed, 
+                                                            heighttype=float)
+        self._ht = ht
+        self._a = a
+        self._p = p
+
+
+    def evolve(self, nprtcls):
+        """Evolve the system by depositing nprtcls particles.
+    
+        The depositions are made using the random deposition model.
+            
+        Parameters
+        ----------
+            nprtcls : int
+                Number of particles to deposit.
+
+        """
+        # Translate prtcls into MCS and then to timesteps
+        nsteps = int((float(nprtcls)/self.length)/self._ht)
+        
+        # TODO: fix indentation
+        self._heights = c_evolve.evolveWalledEW(self._heights, self._ht, 
+                                            nsteps, self._a, self._p, self._pbc)
         return 
 
 

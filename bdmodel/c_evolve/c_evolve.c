@@ -160,6 +160,7 @@ void c_evolveRelaxRDdiff(double* in_heights, double* out_heights, double ht,
 {
     int j_latt;
     double sqrt2ht;
+    double lastheight;
     double lapl;
 
     // Store the square root of twice the timestep to avoid calculating it 
@@ -175,25 +176,75 @@ void c_evolveRelaxRDdiff(double* in_heights, double* out_heights, double ht,
         lapl = out_heights[j_latt + 1] - 2*out_heights[j_latt] 
                                                 + out_heights[length - 1];
 
+        lastheight = out_heights[j_latt];
         out_heights[j_latt] = out_heights[j_latt] + ht*lapl + sqrt2ht*drang_();
     
         for (j_latt=1; j_latt<length - 1; j_latt++)
         {
-            lapl = out_heights[j_latt + 1] - 2*out_heights[j_latt] 
-                                                    + out_heights[j_latt - 1];
+            lapl = out_heights[j_latt + 1] - 2*out_heights[j_latt] + lastheight;
 
+            lastheight = out_heights[j_latt];
             out_heights[j_latt] = out_heights[j_latt] + ht*lapl + sqrt2ht*drang_();
         }
 
         j_latt = length - 1;
-        lapl = out_heights[0] - 2*out_heights[j_latt] 
-                                                + out_heights[j_latt - 1];
+        lapl = out_heights[0] - 2*out_heights[j_latt] + lastheight;
+        lastheight = out_heights[j_latt];
         out_heights[j_latt] = out_heights[j_latt] + ht*lapl + sqrt2ht*drang_();
     }
         
     return;
 }
 
+
+void c_evolveWalledEW(double* in_heights, double* out_heights, double ht,
+                      double a, double p, int length, long int nsteps, 
+                      long int* pbc)
+{
+    int j_latt;
+    double sqrt2ht;
+    double lastheight;
+    double lapl;
+
+    // Store the square root of twice the timestep to avoid calculating it 
+    // in each iteration
+    sqrt2ht = sqrt(2.*ht);
+
+    //Initialize out_heights with the values in in_heights
+    for (int i=0; i<length; i++) out_heights[i] = in_heights[i];
+    
+    for (int t=0; t<nsteps; t++)
+    {
+        j_latt = 0;
+        lapl = out_heights[j_latt + 1] - 2*out_heights[j_latt] 
+                                                + out_heights[length - 1];
+
+        lastheight = out_heights[j_latt];
+        out_heights[j_latt] = out_heights[j_latt] 
+                + ht*(lapl + a + p*pow(out_heights[j_latt], -p - 1))
+                + sqrt2ht*drang_();
+    
+        for (j_latt=1; j_latt<length - 1; j_latt++)
+        {
+            lapl = out_heights[j_latt + 1] - 2*out_heights[j_latt] 
+                                                    + lastheight;
+
+            lastheight = out_heights[j_latt];
+            out_heights[j_latt] = out_heights[j_latt] 
+                    + ht*(lapl + a + p*pow(out_heights[j_latt], -p - 1))
+                    + sqrt2ht*drang_();
+        }
+
+        j_latt = length - 1;
+        lapl = out_heights[0] - 2*out_heights[j_latt] + lastheight;
+        lastheight = out_heights[j_latt];
+        out_heights[j_latt] = out_heights[j_latt] 
+                + ht*(lapl + a + p*pow(out_heights[j_latt], -p - 1))
+                + sqrt2ht*drang_();
+    }
+        
+    return;
+}
 
 // Return the maximum of the 3 given numbers.
 long int max_three(long int a, long int b, long int c)
